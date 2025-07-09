@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Home - Pescaria{% endblock %}
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Bem-vindo ao PescariaSite!</h1>
+  <p class="lead">Seu site de pesca favorito.</p>
+  {% if not user.is_authenticated %}
+    <hr class="my-4">
+    <p>Para acessar todos os recursos, faca login ou cadastre-se.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Login</a>
+    <a class="btn btn-secondary btn-lg" href="{% url 'core_accounts:signup' %}" role="button">Cadastro</a>
+  {% endif %}
+</div>
+{% endblock %}

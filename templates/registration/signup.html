@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Cadastro{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="text-center mb-4">Cadastro</h3>
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group mb-3">
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger small">{{ field.errors|striptags }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+        </form>
+        <hr>
+        <p class="text-center">
+          <a href="{% url 'login' %}">Ja tem conta Faca login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

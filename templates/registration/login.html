@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block extra_css %}
+<style>
+/* Estilizacao dos campos de input gerados pelo Django */
+input[type="text"], input[type="password"] {
+    width: 100% !important;
+    padding: 0.875rem 1rem !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 0.5rem !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    background-color: #f9fafb !important;
+    box-sizing: border-box !important;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    outline: none !important;
+    border-color: #3b82f6 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    transform: translateY(-1px) !important;
+}
+
+input[type="text"]:hover, input[type="password"]:hover {
+    border-color: #d1d5db !important;
+    background-color: #ffffff !important;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="text-center mb-4">Login</h3>
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group mb-3">
+            <label for="{{ form.username.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; font-size: 0.875rem;">Usuario:</label>
+            <div style="position: relative;">
+              {{ form.username }}
+            </div>
+            {% if form.username.errors %}
+              <div class="text-danger small" style="margin-top: 0.25rem; display: flex; align-items: center; gap: 0.25rem;">
+                <span style="background: #dc2626; color: white; border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">!</span>
+                {{ form.username.errors|striptags }}
+              </div>
+            {% endif %}
+          </div>
+          
+          <div class="form-group mb-3">
+            <label for="{{ form.password.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; font-size: 0.875rem;">Senha:</label>
+            <div style="position: relative;">
+              {{ form.password }}
+            </div>
+            {% if form.password.errors %}
+              <div class="text-danger small" style="margin-top: 0.25rem; display: flex; align-items: center; gap: 0.25rem;">
+                <span style="background: #dc2626; color: white; border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold;">!</span>
+                {{ form.password.errors|striptags }}
+              </div>
+            {% endif %}
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100" style="padding: 0.875rem 1rem; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; transition: all 0.3s ease; margin-top: 0.5rem;" onmouseover="this.style.background='linear-gradient(135deg, #2563eb 0%, #1e40af 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)'" onmouseout="this.style.background='linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">Entrar</button>
+        </form>
+        <hr>
+        <p class="text-center">
+          <a href="{% url 'core_accounts:signup' %}">Nao tem conta? Cadastre-se</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
