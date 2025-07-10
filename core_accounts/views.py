@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from .forms import CustomUserCreationForm
 
 def signup_view(request):
     if request.method == 'POST':
@@ -13,5 +15,5 @@ def signup_view(request):
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})

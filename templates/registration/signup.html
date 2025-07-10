@@ -2,26 +2,179 @@
 {% block title %}Cadastro{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-md-6">
+  <div class="col-md-8">
     <div class="card">
       <div class="card-body">
-        <h3 class="text-center mb-4">Cadastro</h3>
+        <h3 class="text-center mb-4">Cadastro Completo</h3>
         <form method="post">
           {% csrf_token %}
-          {% for field in form %}
-            <div class="form-group mb-3">
-              {{ field.label_tag }}
-              {{ field }}
-              {% if field.errors %}
-                <div class="text-danger small">{{ field.errors|striptags }}</div>
-              {% endif %}
+          
+          <!-- Dados de Login -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h5 class="text-muted border-bottom pb-2">Dados de Acesso</h5>
             </div>
-          {% endfor %}
-          <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+            
+            {% for field in form %}
+              {% if field.name == 'username' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Nome de Usuario:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'email' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Email:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'password1' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Senha:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'password2' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Confirmar Senha:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          <!-- Dados Pessoais -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h5 class="text-muted border-bottom pb-2">Dados Pessoais</h5>
+            </div>
+            
+            {% for field in form %}
+              {% if field.name == 'first_name' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Nome:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'last_name' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Sobrenome:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'cpf' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">CPF:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'phone' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Telefone:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          <!-- Dados Profissionais -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h5 class="text-muted border-bottom pb-2">Dados Profissionais</h5>
+            </div>
+            
+            {% for field in form %}
+              {% if field.name == 'occupation' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Profissao:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'company' %}
+                <div class="col-md-6 mb-3">
+                  <label for="{{ field.id_for_label }}">Empresa:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          <!-- Endereco -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h5 class="text-muted border-bottom pb-2">Endereco</h5>
+            </div>
+            
+            {% for field in form %}
+              {% if field.name == 'address' %}
+                <div class="col-md-8 mb-3">
+                  <label for="{{ field.id_for_label }}">Endereco:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'zip_code' %}
+                <div class="col-md-4 mb-3">
+                  <label for="{{ field.id_for_label }}">CEP:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'city' %}
+                <div class="col-md-8 mb-3">
+                  <label for="{{ field.id_for_label }}">Cidade:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'state' %}
+                <div class="col-md-4 mb-3">
+                  <label for="{{ field.id_for_label }}">Estado:</label>
+                  {{ field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+            </div>
+          </div>
         </form>
+        
         <hr>
         <p class="text-center">
-          <a href="{% url 'login' %}">Ja tem conta Faca login</a>
+          <a href="{% url 'login' %}">Ja tem conta? Faca login</a>
         </p>
       </div>
     </div>
