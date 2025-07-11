@@ -1,14 +1,119 @@
-{% extends "base.html" %}
-{% block title %}Home - Pescaria{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pescaria - Restaurante a Beira do Lago{% endblock %}
+
+{% block extra_css %}
+<style>
+/* CSS especifico para homepage - sera expandido nas proximas etapas */
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1200x600/0066cc/ffffff?text=Placeholder+Imagem+Restaurante');
+    background-size: cover;
+    background-position: center;
+    min-height: 500px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.section-padding {
+    padding: 60px 0;
+}
+
+.card-service {
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.card-service:hover {
+    transform: translateY(-5px);
+}
+
+.placeholder-img {
+    background-color: #e9ecef;
+    border: 2px dashed #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 14px;
+    min-height: 200px;
+}
+
+.social-links a {
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #ffc107;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="jumbotron">
-  <h1 class="display-4">Bem-vindo ao PescariaSite!</h1>
-  <p class="lead">Seu site de pesca favorito.</p>
-  {% if not user.is_authenticated %}
-    <hr class="my-4">
-    <p>Para acessar todos os recursos, faca login ou cadastre-se.</p>
-    <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Login</a>
-    <a class="btn btn-secondary btn-lg" href="{% url 'core_accounts:signup' %}" role="button">Cadastro</a>
-  {% endif %}
-</div>
+<!-- Homepage sera construida com secoes full-width -->
+<main>
+    <!-- ETAPA 2: ? Navbar Responsiva Concluida -->
+    <!-- ETAPA 3: Hero Section aqui -->
+    <!-- ETAPA 4: Sobre Nos aqui -->
+    <!-- ETAPA 5: Servicos aqui -->
+    <!-- ETAPA 6: Rifas aqui -->
+    <!-- ETAPA 7: Contato + Footer aqui -->
+    
+    <!-- Placeholder temporario para testar navbar -->
+    <section id="home" class="container py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-success">
+                    <h4>?? Etapa 2 Concluida: Navbar Responsiva</h4>
+                    <p><strong>Funcionalidades implementadas:</strong></p>
+                    <ul>
+                        <li>? Navbar fixa no topo (fixed-top)</li>
+                        <li>? Menu hamburguer para mobile</li>
+                        <li>? Links de navegacao: Home, Sobre, Servicos, Rifas, Contato</li>
+                        <li>? Navegacao suave (smooth scroll)</li>
+                        <li>? Destaque do link ativo</li>
+                        <li>? Icones Bootstrap Icons</li>
+                        <li>? Seus botoes de login/cadastro mantidos</li>
+                    </ul>
+                    <p><strong>Proxima etapa:</strong> Secao Hero com imagem de fundo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Secoes placeholder para testar navegacao -->
+    <section id="sobre" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center">?? Secao Sobre Nos</h2>
+            <p class="text-center text-muted">Esta secao sera desenvolvida na Etapa 4</p>
+        </div>
+    </section>
+    
+    <section id="servicos" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center">??? Secao Servicos</h2>
+            <p class="text-center text-muted">Esta secao sera desenvolvida na Etapa 5</p>
+        </div>
+    </section>
+    
+    <section id="rifas" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center">?? Secao Rifas</h2>
+            <p class="text-center text-muted">Esta secao sera desenvolvida na Etapa 6</p>
+        </div>
+    </section>
+    
+    <section id="contato" class="py-5 bg-primary text-white">
+        <div class="container">
+            <h2 class="text-center">?? Secao Contato</h2>
+            <p class="text-center">Esta secao sera desenvolvida na Etapa 7</p>
+        </div>
+    </section>
+</main>
 {% endblock %}
