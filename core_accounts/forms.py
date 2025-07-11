@@ -100,3 +100,60 @@ class CustomUserCreationForm(UserCreationForm):
             # ou usar um sinal para salvar em outra tabela
             
         return user
+
+class ContatoForm(forms.Form):
+    """
+    Formulario para pagina de contato da homepage.
+    Sera usado na Etapa 7 para coletar mensagens dos visitantes.
+    """
+    nome = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Seu nome completo'
+        })
+    )
+    
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'seu@email.com'
+        })
+    )
+    
+    telefone = forms.CharField(
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '(11) 99999-9999'
+        })
+    )
+    
+    assunto = forms.CharField(
+        max_length=200,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Assunto da mensagem'
+        })
+    )
+    
+    mensagem = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 5,
+            'placeholder': 'Escreva sua mensagem aqui...'
+        })
+    )
+    
+    def clean_nome(self):
+        nome = self.cleaned_data.get('nome')
+        if len(nome) < 2:
+            raise forms.ValidationError('Nome deve ter pelo menos 2 caracteres.')
+        return nome
+    
+    def clean_mensagem(self):
+        mensagem = self.cleaned_data.get('mensagem')
+        if len(mensagem) < 10:
+            raise forms.ValidationError('Mensagem deve ter pelo menos 10 caracteres.')
+        return mensagem
