@@ -308,25 +308,281 @@
     }
 }
 
-/* Secoes seguintes */
+/* ===== ETAPA 5: CSS SECAO SERVICOS ===== */
+.servicos-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.servicos-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ffc107, #0066cc, #ffc107);
+}
+
+.servicos-intro {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.servicos-intro h2 {
+    color: #0066cc;
+    margin-bottom: 1rem;
+}
+
+.servicos-intro p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .card-service {
-    transition: transform 0.3s ease;
+    background: white;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    transition: all 0.4s ease;
     height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 .card-service:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 }
 
-.placeholder-img {
-    background-color: #e9ecef;
-    border: 2px dashed #6c757d;
+.card-service::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #0066cc, #ffc107);
+    transition: height 0.3s ease;
+}
+
+.card-service:hover::before {
+    height: 8px;
+}
+
+.service-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #0066cc, #ffc107);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.service-icon::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #0066cc, #ffc107);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-service:hover .service-icon::before {
+    opacity: 0.3;
+}
+
+.service-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0,102,204,0.1), rgba(255,193,7,0.1));
+    transition: opacity 0.3s ease;
+}
+
+.card-service:hover .service-image::before {
+    opacity: 0.7;
+}
+
+.service-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0,102,204,0.9);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.service-content {
+    padding: 1.5rem;
+}
+
+.service-title {
+    color: #0066cc;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.service-description {
     color: #6c757d;
-    font-size: 14px;
-    min-height: 200px;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.service-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.service-features li {
+    color: #495057;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.9rem;
+}
+
+.service-features li::before {
+    content: '?';
+    position: absolute;
+    left: 0;
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.service-button {
+    background: linear-gradient(45deg, #0066cc, #004499);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    padding: 12px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.service-button:hover {
+    background: linear-gradient(45deg, #004499, #0066cc);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+    color: white;
+}
+
+.servicos-cta {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #0066cc, #004499);
+    border-radius: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.servicos-cta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.servicos-cta h3 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.servicos-cta p {
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    background: #ffc107;
+    color: #0066cc;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.cta-button:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,193,7,0.3);
+    color: #0066cc;
+}
+
+/* Responsividade Servicos */
+@media (max-width: 768px) {
+    .servicos-intro {
+        margin-bottom: 2rem;
+    }
+    
+    .service-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    
+    .service-image {
+        height: 180px;
+    }
+    
+    .service-content {
+        padding: 1rem;
+    }
+    
+    .servicos-cta {
+        margin-top: 2rem;
+        padding: 2rem 1rem;
+    }
 }
 
 .social-links a {
@@ -338,6 +594,327 @@
 
 .social-links a:hover {
     color: #ffc107;
+}
+
+/* Secao Rifas */
+.rifas-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+.rifas-intro {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.rifas-intro h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.rifas-intro p {
+    font-size: 1.2rem;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.rifa-info-box {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+.rifa-info-box h3 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.rifa-info-item {
+    text-align: center;
+    padding: 15px;
+}
+
+.rifa-info-item .h4 {
+    color: #6c757d;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.rifa-info-item p {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.rifas-grid-container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+.rifas-grid-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.rifas-grid-header h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.rifas-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #dee2e6;
+}
+
+.legend-disponivel {
+    background: #d4edda;
+    border-color: #28a745;
+}
+
+.legend-selecionado {
+    background: #cce5ff;
+    border-color: #007bff;
+}
+
+.legend-vendido {
+    background: #f8d7da;
+    border-color: #dc3545;
+}
+
+.rifas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 10px;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rifa-numero {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    position: relative;
+}
+
+.rifa-numero.disponivel {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.rifa-numero.disponivel:hover {
+    background: #c3e6cb;
+    transform: scale(1.05);
+}
+
+.rifa-numero.selecionado {
+    background: #cce5ff;
+    border-color: #007bff;
+    color: #0056b3;
+    transform: scale(1.05);
+}
+
+.rifa-numero.vendido {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+    cursor: not-allowed;
+}
+
+.rifa-numeros {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.rifa-comprador {
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: 2px;
+    opacity: 0.8;
+}
+
+.rifa-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-comprar {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-comprar:hover:not(:disabled) {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: translateY(-2px);
+}
+
+.btn-comprar:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #0056b3, #004085);
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+}
+
+.rifas-login-alert {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+.rifas-login-alert h4 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.rifas-login-alert p {
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.rifas-footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.rifas-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.rifas-empty h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.rifas-empty p {
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .rifas-grid {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 8px;
+    }
+    
+    .rifa-numero {
+        font-size: 0.9rem;
+    }
+    
+    .rifas-legend {
+        gap: 15px;
+    }
+    
+    .rifa-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .rifa-info-box .row {
+        text-align: center;
+    }
+    
+    .rifa-info-item {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .rifas-grid {
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    }
+    
+    .rifa-numeros {
+        font-size: 1rem;
+    }
+    
+    .rifa-comprador {
+        font-size: 0.6rem;
+    }
+}as-footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.rifas-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
 }
 </style>
 {% endblock %}
@@ -529,19 +1106,381 @@
     </section>
     
     <!-- Secaes placeholder para proximas etapas -->
-    <section id="servicos" class="py-5 bg-light">
+    <!-- ETAPA 5: ? Secao Servicos -->
+    <section id="servicos" class="servicos-section section-padding">
         <div class="container">
-            <h2 class="text-center">??? Secao Servicos</h2>
-            <p class="text-center text-muted">Esta secao sera desenvolvida na Etapa 5</p>
+            <!-- Introducao da Secao -->
+            <div class="servicos-intro">
+                <h2 class="display-5 fw-bold section-title">Nossos Servicos</h2>
+                <p class="lead">
+                    Oferecemos diferentes formas de voce desfrutar da nossa gastronomia, 
+                    sempre com a qualidade e o carinho que nos caracterizam.
+                </p>
+            </div>
+            
+            <!-- Cards de Servicos -->
+            <div class="row g-4">
+                <!-- Servico 1: Restaurante Presencial -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-service">
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="bi bi-house-door"></i>
+                            </div>
+                            <h4 class="service-title">Restaurante Presencial</h4>
+                            <p class="service-description">
+                                Venha desfrutar da nossa atmosfera unica a beira do lago. 
+                                Ambiente acolhedor, vista deslumbrante e atendimento personalizado.
+                            </p>
+                            
+                            <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                                <div class="service-badge">Mais Popular</div>
+                            </div>
+                            
+                            <ul class="service-features">
+                                <li>Vista privilegiada do lago</li>
+                                <li>Ambiente climatizado</li>
+                                <li>Musica ambiente</li>
+                                <li>Estacionamento gratuito</li>
+                                <li>Aceita reservas</li>
+                            </ul>
+                            
+                            <a href="#contato" class="btn service-button">
+                                <i class="bi bi-calendar-check me-2"></i>
+                                Reservar Mesa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Servico 2: Delivery -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-service">
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="bi bi-truck"></i>
+                            </div>
+                            <h4 class="service-title">Delivery</h4>
+                            <p class="service-description">
+                                Leve o sabor do Pescaria para sua casa! Entrega rapida e segura, 
+                                mantendo a qualidade e o sabor de sempre.
+                            </p>
+                            
+                            <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                                <div class="service-badge">Rapido</div>
+                            </div>
+                            
+                            <ul class="service-features">
+                                <li>Entrega em ate 45 minutos</li>
+                                <li>Embalagem termica</li>
+                                <li>Pedidos online</li>
+                                <li>Pagamento na entrega</li>
+                                <li>Rastreamento do pedido</li>
+                            </ul>
+                            
+                            <a href="tel:{{ info_contato.telefone }}" class="btn service-button">
+                                <i class="bi bi-telephone me-2"></i>
+                                Pedir Delivery
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Servico 3: Festinhas -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-service">
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="bi bi-gift"></i>
+                            </div>
+                            <h4 class="service-title">Festinhas & Eventos</h4>
+                            <p class="service-description">
+                                Celebre momentos especiais conosco! Aniversarios, confraternizacoes 
+                                e eventos corporativos com todo o carinho.
+                            </p>
+                            
+                            <div class="service-image" style="background-image: url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')">
+                                <div class="service-badge">Especial</div>
+                            </div>
+                            
+                            <ul class="service-features">
+                                <li>Espaco para ate 80 pessoas</li>
+                                <li>Decoracao personalizada</li>
+                                <li>Cardapio especial</li>
+                                <li>Som ambiente</li>
+                                <li>Atendimento exclusivo</li>
+                            </ul>
+                            
+                            <a href="#contato" class="btn service-button">
+                                <i class="bi bi-chat-dots me-2"></i>
+                                Solicitar Orcamento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="servicos-cta">
+                <h3 class="h2">Precisa de Mais Informacoes?</h3>
+                <p>
+                    Entre em contato conosco! Nossa equipe esta pronta para atender 
+                    suas necessidades e criar a experiencia perfeita para voce.
+                </p>
+                <a href="#contato" class="btn cta-button">
+                    <i class="bi bi-whatsapp me-2"></i>
+                    Falar no WhatsApp
+                </a>
+            </div>
         </div>
     </section>
     
-    <section id="rifas" class="py-5 bg-white">
+    <section id="rifas" class="rifas-section section-padding">
         <div class="container">
-            <h2 class="text-center">?? Secao Rifas</h2>
-            <p class="text-center text-muted">Esta secao sera desenvolvida na Etapa 6</p>
+            <!-- Introducao da Secao -->
+            <div class="rifas-intro">
+                <h2 class="display-5 fw-bold section-title">Rifas & Sorteios</h2>
+                <p class="lead">
+                    Participe das nossas rifas e concorra a premios incriveis! 
+                    Escolha seus numeros da sorte e boa sorte!
+                </p>
+            </div>
+            
+            {% if has_rifas %}
+                {% with rifa_atual=rifas_ativas.first %}
+                    <!-- Informacoes da Rifa Atual -->
+                    <div class="rifa-info-box">
+                        <h3 class="h2">
+                            <i class="bi bi-gift me-2"></i>
+                            {{ rifa_atual.titulo }}
+                        </h3>
+                        <div class="row">
+                            <div class="col-md-3 rifa-info-item">
+                                <div class="h4">Premio</div>
+                                <p>{{ rifa_atual.titulo }}</p>
+                            </div>
+                            <div class="col-md-3 rifa-info-item">
+                                <div class="h4">Valor</div>
+                                <p>R$ {{ rifa_atual.preco_numero }}</p>
+                            </div>
+                            <div class="col-md-3 rifa-info-item">
+                                <div class="h4">Sorteio</div>
+                                <p>{{ rifa_atual.data_sorteio|date:"d/m/Y" }}</p>
+                            </div>
+                            <div class="col-md-3 rifa-info-item">
+                                <div class="h4">Disponiveis</div>
+                                <p>{{ rifa_atual.numeros_restantes }}/{{ rifa_atual.total_numeros }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Verificar se usuario esta logado -->
+                    {% if user.is_authenticated %}
+                        <!-- Grid de Numeros da Rifa -->
+                        <div class="rifas-grid-container">
+                            <div class="rifas-grid-header">
+                                <h4>Escolha seus numeros da sorte</h4>
+                                <p class="text-muted">Clique nos numeros disponiveis para seleciona-los</p>
+                            </div>
+                            
+                            <!-- Legenda -->
+                            <div class="rifas-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color legend-disponivel"></div>
+                                    <span>Disponivel</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color legend-selecionado"></div>
+                                    <span>Selecionado</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color legend-vendido"></div>
+                                    <span>Vendido</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Grid de numeros -->
+                            <div class="rifas-grid">
+                                {% for numero in rifa_atual.numeros.all %}
+                                    <div class="rifa-numero vendido" 
+                                         data-numero="{{ numero.numero }}"
+                                         data-numeros="{{ numero.numero }}">
+                                        <div class="rifa-numeros">
+                                            {{ numero.numero }}
+                                        </div>
+                                        <div class="rifa-comprador">
+                                            {{ numero.comprador_nome|truncatechars:8 }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                
+                                <!-- Numeros disponiveis -->
+                                {% for i in rifa_atual.numeros_disponiveis %}
+                                    <div class="rifa-numero disponivel" 
+                                         data-numero="{{ i }}"
+                                         data-numeros="{{ i }}"
+                                         onclick="selecionarNumero(this)">
+                                        <div class="rifa-numeros">
+                                            {{ i }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <!-- Botoes de Acao -->
+                            <div class="rifa-actions">
+                                <button class="btn btn-comprar" id="btnComprar" disabled onclick="confirmarCompra()">
+                                    <i class="bi bi-credit-card me-2"></i>
+                                    Comprar Selecionados
+                                </button>
+                                <button class="btn btn-outline-secondary" onclick="limparSelecao()">
+                                    <i class="bi bi-arrow-clockwise me-2"></i>
+                                    Limpar Selecao
+                                </button>
+                            </div>
+                            
+                            <!-- Status da Selecao -->
+                            <div class="mt-3 text-center">
+                                <span id="statusSelecao" class="text-muted">Selecione os numeros desejados</span>
+                            </div>
+                        </div>
+                        
+                    {% else %}
+                        <!-- Alerta para usuarios nao logados -->
+                        <div class="rifas-login-alert">
+                            <h4>
+                                <i class="bi bi-lock me-2"></i>
+                                Faca login para participar
+                            </h4>
+                            <p>
+                                Para comprar numeros da rifa, voce precisa estar logado em sua conta. 
+                                E rapido e seguro!
+                            </p>
+                            <a href="{% url 'login' %}" class="btn btn-login">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+                                Fazer Login
+                            </a>
+                            <a href="{% url 'register' %}" class="btn btn-outline-primary ms-2">
+                                <i class="bi bi-person-plus me-2"></i>
+                                Criar Conta
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <!-- Link para ver todas as rifas -->
+                {% if rifas_ativas|length > 1 %}
+                    <div class="rifas-footer">
+                        <a href="{% url 'todas_rifas' %}" class="btn btn-outline">
+                            Ver todas as rifas ({{ total_rifas }})
+                        </a>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="rifas-empty">
+                    <h3>Nenhuma rifa ativa no momento</h3>
+                    <p>Fique atento as nossas redes sociais para nao perder as proximas rifas!</p>
+                    <a href="#contato" class="btn btn-primary">Entre em contato</a>
+                </div>
+            {% endif %}
         </div>
     </section>
+    
+    <!-- JavaScript para Funcionalidade das Rifas -->
+    <script>
+        let numerosSelecionados = [];
+        
+        function selecionarNumero(elemento) {
+            const numero = elemento.getAttribute('data-numero');
+            const numeros = elemento.getAttribute('data-numeros');
+            
+            if (elemento.classList.contains('vendido')) {
+                return; // Nao permite selecionar numeros vendidos
+            }
+            
+            if (elemento.classList.contains('selecionado')) {
+                // Desselecionar
+                elemento.classList.remove('selecionado');
+                elemento.classList.add('disponivel');
+                numerosSelecionados = numerosSelecionados.filter(n => n.numero !== numero);
+            } else {
+                // Selecionar
+                elemento.classList.remove('disponivel');
+                elemento.classList.add('selecionado');
+                numerosSelecionados.push({
+                    numero: numero,
+                    numeros: numeros
+                });
+            }
+            
+            atualizarInterface();
+        }
+        
+        function atualizarInterface() {
+            const btnComprar = document.getElementById('btnComprar');
+            const statusSelecao = document.getElementById('statusSelecao');
+            
+            if (numerosSelecionados.length === 0) {
+                btnComprar.disabled = true;
+                statusSelecao.textContent = 'Selecione os numeros desejados';
+                statusSelecao.className = 'text-muted';
+            } else {
+                btnComprar.disabled = false;
+                const total = numerosSelecionados.length * {{ rifa_atual.preco_numero|default:10 }};
+                statusSelecao.innerHTML = `
+                    <strong class="text-success">
+                        ${numerosSelecionados.length} numero(s) selecionado(s) - 
+                        Total: R$ ${total.toFixed(2).replace('.', ',')}
+                    </strong>
+                `;
+                statusSelecao.className = 'text-success';
+            }
+        }
+        
+        function limparSelecao() {
+            numerosSelecionados.forEach(item => {
+                const elemento = document.querySelector(`[data-numero="${item.numero}"]`);
+                if (elemento) {
+                    elemento.classList.remove('selecionado');
+                    elemento.classList.add('disponivel');
+                }
+            });
+            numerosSelecionados = [];
+            atualizarInterface();
+        }
+        
+        function confirmarCompra() {
+            if (numerosSelecionados.length === 0) {
+                return;
+            }
+            
+            const total = numerosSelecionados.length * {{ rifa_atual.preco_numero|default:10 }};
+            const numerosTexto = numerosSelecionados.map(n => n.numeros).join(', ');
+            
+            if (confirm(`Confirmar compra?\n\nNumeros: ${numerosTexto}\nTotal: R$ ${total.toFixed(2).replace('.', ',')}\n\nVoce sera redirecionado para o pagamento.`)) {
+                // Aqui voce pode implementar a logica de pagamento
+                // Por exemplo, redirecionar para uma pagina de checkout
+                console.log('Numeros selecionados:', numerosSelecionados);
+                alert('Funcionalidade de pagamento sera implementada em breve!');
+                
+                // Simular compra bem-sucedida (remover em producao)
+                numerosSelecionados.forEach(item => {
+                    const elemento = document.querySelector(`[data-numero="${item.numero}"]`);
+                    if (elemento) {
+                        elemento.classList.remove('selecionado');
+                        elemento.classList.add('vendido');
+                        elemento.innerHTML = `
+                            <div class="rifa-numeros">${item.numeros}</div>
+                            <div class="rifa-comprador">{{ user.first_name|default:user.username }}</div>
+                        `;
+                        elemento.onclick = null;
+                    }
+                });
+                numerosSelecionados = [];
+                atualizarInterface();
+            }
+        }
+    </script>
     
     <section id="contato" class="py-5 bg-primary text-white">
         <div class="container">
