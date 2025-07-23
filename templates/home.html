@@ -1482,10 +1482,186 @@
         }
     </script>
     
-    <section id="contato" class="py-5 bg-primary text-white">
+    <!-- Secao Contato -->
+    <section id="contato" class="py-5 bg-light">
         <div class="container">
-            <h2 class="text-center">?? Secao Contato</h2>
-            <p class="text-center">Esta secao sera desenvolvida na Etapa 7</p>
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-4 fw-bold text-primary">
+                        <i class="bi bi-envelope-heart"></i> Entre em Contato
+                    </h2>
+                    <p class="lead text-muted">Estamos aqui para ajudar! Envie sua mensagem que responderemos em breve.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Formulario de Contato -->
+                <div class="col-lg-8 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">
+                                <i class="bi bi-chat-dots text-primary"></i> Envie sua Mensagem
+                            </h4>
+                            
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %} 
+                            <form method="post" action="{% url 'core_accounts:home' %}#contato">
+                                {% csrf_token %}
+                                <input type="hidden" name="contato_submit" value="1">
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.nome.id_for_label }}" class="form-label">
+                                            <i class="bi bi-person"></i> Nome Completo *
+                                        </label>
+                                        {{ contato_form.nome }}
+                                        {% if contato_form.nome.errors %}
+                                            <div class="text-danger small">{{ contato_form.nome.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.email.id_for_label }}" class="form-label">
+                                            <i class="bi bi-envelope"></i> Email *
+                                        </label>
+                                        {{ contato_form.email }}
+                                        {% if contato_form.email.errors %}
+                                            <div class="text-danger small">{{ contato_form.email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.telefone.id_for_label }}" class="form-label">
+                                            <i class="bi bi-telephone"></i> Telefone
+                                        </label>
+                                        {{ contato_form.telefone }}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.assunto.id_for_label }}" class="form-label">
+                                            <i class="bi bi-tag"></i> Assunto *
+                                        </label>
+                                        {{ contato_form.assunto }}
+                                        {% if contato_form.assunto.errors %}
+                                            <div class="text-danger small">{{ contato_form.assunto.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="{{ contato_form.mensagem.id_for_label }}" class="form-label">
+                                        <i class="bi bi-chat-text"></i> Mensagem *
+                                    </label>
+                                    {{ contato_form.mensagem }}
+                                    {% if contato_form.mensagem.errors %}
+                                        <div class="text-danger small">{{ contato_form.mensagem.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="bi bi-send"></i> Enviar Mensagem
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Informacoes de Contato -->
+                <div class="col-lg-4">
+                    <!-- Card Informacoes -->
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">
+                                <i class="bi bi-info-circle text-primary"></i> Informacoes de Contato
+                            </h4>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary text-white rounded-circle p-2 me-3">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div>
+                                    <strong>Endereco</strong><br>
+                                    <small class="text-muted">{{ info_contato.endereco }}</small>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-success text-white rounded-circle p-2 me-3">
+                                    <i class="bi bi-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <strong>WhatsApp</strong><br>
+                                    <a href="https://wa.me/5511999999999" class="text-decoration-none">
+                                        {{ info_contato.telefone }}
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-info text-white rounded-circle p-2 me-3">
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+                                <div>
+                                    <strong>Email</strong><br>
+                                    <a href="mailto:{{ info_contato.email }}" class="text-decoration-none">
+                                        {{ info_contato.email }}
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center">
+                                <div class="bg-warning text-dark rounded-circle p-2 me-3">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+                                <div>
+                                    <strong>Horario</strong><br>
+                                    <small class="text-muted">
+                                        Seg-Dom: 8h as 18h<br>
+                                        Feriados: 9h as 16h
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Redes Sociais -->
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4 text-center">
+                            <h5 class="card-title mb-3">
+                                <i class="bi bi-share text-primary"></i> Redes Sociais
+                            </h5>
+                            
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn btn-outline-primary btn-lg rounded-circle">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-danger btn-lg rounded-circle">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-info btn-lg rounded-circle">
+                                    <i class="bi bi-youtube"></i>
+                                </a>
+                                <a href="https://wa.me/5511999999999" class="btn btn-outline-success btn-lg rounded-circle">
+                                    <i class="bi bi-whatsapp"></i>
+                                </a>
+                            </div>
+                            
+                            <p class="text-muted small mt-3 mb-0">
+                                Siga-nos para novidades e promocoes!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </main>
