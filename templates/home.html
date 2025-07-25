@@ -916,6 +916,446 @@
     padding: 60px 20px;
     background: white;
 }
+
+/* Melhorias para a secao de contato */
+#contato {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+#contato::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 60%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(0,102,204,0.05) 0%, transparent 70%);
+    animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Cards da secao contato */
+#contato .card {
+    transition: all 0.3s ease;
+    border: none !important;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+}
+
+#contato .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,102,204,0.15) !important;
+}
+
+/* Inputs do formulario */
+#contato .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.9);
+}
+
+#contato .form-control:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 0.25rem rgba(0,102,204,0.15);
+    background: white;
+    transform: translateY(-2px);
+}
+
+/* Botao principal */
+#contato .btn-primary {
+    background: linear-gradient(45deg, #0066cc, #004499);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#contato .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+#contato .btn-primary:hover::before {
+    left: 100%;
+}
+
+#contato .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,102,204,0.3);
+    background: linear-gradient(45deg, #004499, #0066cc);
+}
+
+/* Icones de informacaes de contato */
+#contato .bg-primary,
+#contato .bg-success,
+#contato .bg-info,
+#contato .bg-warning {
+    transition: all 0.3s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Itens de informacao com hover */
+#contato .d-flex.align-items-center {
+    transition: all 0.3s ease;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 1rem !important;
+}
+
+#contato .d-flex.align-items-center:hover {
+    background: rgba(0,102,204,0.05);
+    transform: translateX(5px);
+}
+
+#contato .d-flex.align-items-center:hover .bg-primary,
+#contato .d-flex.align-items-center:hover .bg-success,
+#contato .d-flex.align-items-center:hover .bg-info,
+#contato .d-flex.align-items-center:hover .bg-warning {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Botoes das redes sociais */
+#contato .btn-outline-primary,
+#contato .btn-outline-danger,
+#contato .btn-outline-info,
+#contato .btn-outline-success {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-width: 2px;
+}
+
+#contato .btn-outline-primary::before,
+#contato .btn-outline-danger::before,
+#contato .btn-outline-info::before,
+#contato .btn-outline-success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+#contato .btn-outline-primary:hover::before,
+#contato .btn-outline-danger:hover::before,
+#contato .btn-outline-info:hover::before,
+#contato .btn-outline-success:hover::before {
+    transform: scale(1);
+}
+
+#contato .btn-outline-primary:hover,
+#contato .btn-outline-danger:hover,
+#contato .btn-outline-info:hover,
+#contato .btn-outline-success:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Animacao de entrada */
+#contato .fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade melhorada */
+@media (max-width: 768px) {
+    #contato .col-lg-8 {
+        margin-bottom: 2rem;
+    }
+    
+    #contato .btn-primary {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    #contato .gap-3 a {
+        margin: 0 5px;
+    }
+    
+    #contato .d-flex.align-items-center:hover {
+        transform: none;
+    }
+}
+
+/* CSS do Rodape Profissional */
+    footer {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -30%;
+        width: 60%;
+        height: 150%;
+        background: radial-gradient(circle, rgba(0,102,204,0.1) 0%, transparent 70%);
+        animation: floatFooter 10s ease-in-out infinite;
+    }
+
+    @keyframes floatFooter {
+        0%, 100% { transform: translateX(0px) rotate(0deg); }
+        50% { transform: translateX(-20px) rotate(180deg); }
+    }
+
+    .footer-section {
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer-title {
+        color: #ffffff;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(45deg, #0066cc, #ffc107);
+        border-radius: 2px;
+    }
+
+    .footer-text {
+        color: #b8b8b8;
+        line-height: 1.7;
+        font-size: 0.95rem;
+    }
+
+    /* Links do rodape */
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 12px;
+        position: relative;
+    }
+
+    .footer-links a {
+        color: #b8b8b8;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .footer-links a::before {
+        content: '?';
+        position: absolute;
+        left: 0;
+        color: #0066cc;
+        font-size: 0.7rem;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    .footer-links a:hover {
+        color: #ffffff;
+        transform: translateX(8px);
+    }
+
+    .footer-links a:hover::before {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Botoes sociais do rodape */
+    .social-footer-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .social-footer-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        transform: scale(0);
+        transition: transform 0.3s ease;
+    }
+
+    .social-footer-btn:hover::before {
+        transform: scale(1);
+    }
+
+    .btn-facebook {
+        background: linear-gradient(45deg, #3b5998, #4267B2);
+        color: white;
+    }
+
+    .btn-facebook:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 10px 20px rgba(59, 89, 152, 0.4);
+        color: white;
+    }
+
+    .btn-instagram {
+        background: linear-gradient(45deg, #E4405F, #833AB4);
+        color: white;
+    }
+
+    .btn-instagram:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 10px 20px rgba(228, 64, 95, 0.4);
+        color: white;
+    }
+
+    .btn-youtube {
+        background: linear-gradient(45deg, #FF0000, #CC0000);
+        color: white;
+    }
+
+    .btn-youtube:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 10px 20px rgba(255, 0, 0, 0.4);
+        color: white;
+    }
+
+    .btn-whatsapp {
+        background: linear-gradient(45deg, #25D366, #128C7E);
+        color: white;
+    }
+
+    .btn-whatsapp:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4);
+        color: white;
+    }
+
+    /* Secao de contato do rodape */
+    .footer-contact i {
+        font-size: 1rem;
+        width: 20px;
+    }
+
+    .footer-hours h6 {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .footer-hours small {
+        color: #b8b8b8;
+        line-height: 1.6;
+    }
+
+    /* Linha divisoria */
+    .footer-divider {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(0,102,204,0.5), transparent);
+        margin: 2rem 0;
+    }
+
+    /* Copyright */
+    .footer-copyright {
+        color: #888;
+        font-size: 0.9rem;
+    }
+
+    .footer-dev {
+        color: #888;
+    }
+
+    .footer-dev .text-danger {
+        animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    /* Responsividade do rodape */
+    @media (max-width: 768px) {
+        footer .col-md-6.text-md-end {
+            text-align: center !important;
+            margin-top: 15px;
+        }
+        
+        .footer-section {
+            margin-bottom: 2rem;
+        }
+        
+        .social-footer-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+        
+        .footer-links a:hover {
+            transform: none;
+        }
+    }
+
+    /* Efeito de scroll suave para o rodape */
+    footer {
+        scroll-margin-top: 80px;
+    }
 </style>
 {% endblock %}
 
@@ -1482,11 +1922,304 @@
         }
     </script>
     
-    <section id="contato" class="py-5 bg-primary text-white">
+    <!-- Secao Contato -->
+    <section id="contato" class="py-5 bg-light">
         <div class="container">
-            <h2 class="text-center">?? Secao Contato</h2>
-            <p class="text-center">Esta secao sera desenvolvida na Etapa 7</p>
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-4 fw-bold text-primary">
+                        <i class="bi bi-envelope-heart"></i> Entre em Contato
+                    </h2>
+                    <p class="lead text-muted">Estamos aqui para ajudar! Envie sua mensagem que responderemos em breve.</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Formulario de Contato -->
+                <div class="col-lg-8 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">
+                                <i class="bi bi-chat-dots text-primary"></i> Envie sua Mensagem
+                            </h4>
+                            
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %} 
+                            <form method="post" action="{% url 'core_accounts:home' %}#contato">
+                                {% csrf_token %}
+                                <input type="hidden" name="contato_submit" value="1">
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.nome.id_for_label }}" class="form-label">
+                                            <i class="bi bi-person"></i> Nome Completo *
+                                        </label>
+                                        {{ contato_form.nome }}
+                                        {% if contato_form.nome.errors %}
+                                            <div class="text-danger small">{{ contato_form.nome.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.email.id_for_label }}" class="form-label">
+                                            <i class="bi bi-envelope"></i> Email *
+                                        </label>
+                                        {{ contato_form.email }}
+                                        {% if contato_form.email.errors %}
+                                            <div class="text-danger small">{{ contato_form.email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.telefone.id_for_label }}" class="form-label">
+                                            <i class="bi bi-telephone"></i> Telefone
+                                        </label>
+                                        {{ contato_form.telefone }}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ contato_form.assunto.id_for_label }}" class="form-label">
+                                            <i class="bi bi-tag"></i> Assunto *
+                                        </label>
+                                        {{ contato_form.assunto }}
+                                        {% if contato_form.assunto.errors %}
+                                            <div class="text-danger small">{{ contato_form.assunto.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="{{ contato_form.mensagem.id_for_label }}" class="form-label">
+                                        <i class="bi bi-chat-text"></i> Mensagem *
+                                    </label>
+                                    {{ contato_form.mensagem }}
+                                    {% if contato_form.mensagem.errors %}
+                                        <div class="text-danger small">{{ contato_form.mensagem.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="bi bi-send"></i> Enviar Mensagem
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Informacoes de Contato -->
+                <div class="col-lg-4">
+                    <!-- Card Informacoes -->
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">
+                                <i class="bi bi-info-circle text-primary"></i> Informacoes de Contato
+                            </h4>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary text-white rounded-circle p-2 me-3">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div>
+                                    <strong>Endereco</strong><br>
+                                    <small class="text-muted">{{ info_contato.endereco }}</small>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-success text-white rounded-circle p-2 me-3">
+                                    <i class="bi bi-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <strong>WhatsApp</strong><br>
+                                    <a href="https://wa.me/5511999999999" class="text-decoration-none">
+                                        {{ info_contato.telefone }}
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-info text-white rounded-circle p-2 me-3">
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+                                <div>
+                                    <strong>Email</strong><br>
+                                    <a href="mailto:{{ info_contato.email }}" class="text-decoration-none">
+                                        {{ info_contato.email }}
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center">
+                                <div class="bg-warning text-dark rounded-circle p-2 me-3">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+                                <div>
+                                    <strong>Horario</strong><br>
+                                    <small class="text-muted">
+                                        Seg-Dom: 8h as 18h<br>
+                                        Feriados: 9h as 16h
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Redes Sociais -->
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4 text-center">
+                            <h5 class="card-title mb-3">
+                                <i class="bi bi-share text-primary"></i> Redes Sociais
+                            </h5>
+                            
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn btn-outline-primary btn-lg rounded-circle">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-danger btn-lg rounded-circle">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-info btn-lg rounded-circle">
+                                    <i class="bi bi-youtube"></i>
+                                </a>
+                                <a href="https://wa.me/5511999999999" class="btn btn-outline-success btn-lg rounded-circle">
+                                    <i class="bi bi-whatsapp"></i>
+                                </a>
+                            </div>
+                            
+                            <p class="text-muted small mt-3 mb-0">
+                                Siga-nos para novidades e promocoes!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+    <!-- Rodape -->
+    <footer class="bg-dark text-light py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Informacoes da Empresa -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-section">
+                        <h5 class="footer-title mb-4">
+                            <i class="bi bi-water text-primary"></i> PescariaSite
+                        </h5>
+                        <p class="footer-text mb-3">
+                            O melhor lugar para relaxar, pescar e desfrutar de momentos unicos com familia e amigos. 
+                            Tradicao e qualidade ha mais de 20 anos.
+                        </p>
+                        <div class="d-flex gap-3 mb-3">
+                            <a href="#" class="social-footer-btn btn-facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" class="social-footer-btn btn-instagram">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" class="social-footer-btn btn-youtube">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+                            <a href="https://wa.me/5511999999999" class="social-footer-btn btn-whatsapp">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Links Rapidos -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="footer-section">
+                        <h5 class="footer-title mb-4">
+                            <i class="bi bi-link-45deg text-primary"></i> Links Rapidos
+                        </h5>
+                        <ul class="footer-links">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#sobre">Sobre Nos</a></li>
+                            <li><a href="#servicos">Servicos</a></li>
+                            <li><a href="#rifas">Rifas</a></li>
+                            <li><a href="#contato">Contato</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Servicos -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="footer-section">
+                        <h5 class="footer-title mb-4">
+                            <i class="bi bi-gear text-primary"></i> Nossos Servicos
+                        </h5>
+                        <ul class="footer-links">
+                            <li><a href="#servicos">Pescaria Presencial</a></li>
+                            <li><a href="#servicos">Delivery de Peixes</a></li>
+                            <li><a href="#servicos">Eventos & Festas</a></li>
+                            <li><a href="#rifas">Rifas Especiais</a></li>
+                            <li><a href="#contato">Reservas</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Contato & Horarios -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="footer-section">
+                        <h5 class="footer-title mb-4">
+                            <i class="bi bi-telephone text-primary"></i> Contato & Horarios
+                        </h5>
+                        
+                        <div class="footer-contact mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-geo-alt text-primary me-2"></i>
+                                <small>{{ info_contato.endereco }}</small>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-whatsapp text-success me-2"></i>
+                                <small>{{ info_contato.telefone }}</small>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-envelope text-info me-2"></i>
+                                <small>{{ info_contato.email }}</small>
+                            </div>
+                        </div>
+                        
+                        <div class="footer-hours">
+                            <h6 class="text-primary mb-2">
+                                <i class="bi bi-clock"></i> Horarios
+                            </h6>
+                            <small class="d-block">Seg-Dom: 8h as 18h</small>
+                            <small class="d-block">Feriados: 9h as 16h</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Linha divisoria -->
+            <hr class="footer-divider my-4">
+            
+            <!-- Copyright -->
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="footer-copyright mb-0">
+                        {{ current_year|default:"2025" }} PescariaSite. Todos os direitos reservados.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="footer-dev mb-0">
+                        <small class="text-muted">
+                            Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> por 
+                            <span class="text-primary"><a href="https://github.com/devBordin0016">DevBordin</a></span>
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </main>
 {% endblock %}

@@ -125,3 +125,12 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Configurações de Email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Para desenvolvimento
+DEFAULT_FROM_EMAIL = 'noreply@pescaria.com.br'
+
+
+# Configurações de localização (já que você usa pt-br)
+LANGUAGE_CODE = "pt-br"
+TIME_ZONE = "America/Sao_Paulo"

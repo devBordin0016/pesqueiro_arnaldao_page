@@ -5,7 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from .forms import CustomUserCreationForm, ContatoForm
 from .models import Rifa, NumeroRifa
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 def signup_view(request):
     if request.method == 'POST':
@@ -26,6 +27,33 @@ def home(request):
     View principal da home page do restaurante.
     Renderiza a homepage com rifas ativas do banco de dados e informacoes do restaurante.
     """
+    # Processar formulario de contato se for POST
+    contato_form = ContatoForm()
+    print(f"DEBUG: contato_form criado = {contato_form}")
+    if request.method == 'POST' and 'contato_submit' in request.POST:
+        contato_form = ContatoForm(request.POST)
+        if contato_form.is_valid():
+            # Dados do formulario
+            nome = contato_form.cleaned_data['nome']
+            email = contato_form.cleaned_data['email']
+            telefone = contato_form.cleaned_data['telefone']
+            assunto = contato_form.cleaned_data['assunto']
+            mensagem = contato_form.cleaned_data['mensagem']
+            
+            # Enviar email
+            try:
+                send_mail(
+                    subject=f'Contato - {assunto}',
+                    message=f'Nome: {nome}\nEmail: {email}\nTelefone: {telefone}\n\nMensagem:\n{mensagem}',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=['contato@pescaria.com.br'],  # Seu email
+                    fail_silently=False,
+                )
+                messages.success(request, 'Mensagem enviada com sucesso! Entraremos em contato em breve.')
+                return redirect('home')
+            except Exception as e:
+                messages.error(request, 'Erro ao enviar mensagem. Tente novamente.')
+
     # Buscar rifas ativas (limitando a 6 para nao sobrecarregar)
     rifas_ativas = Rifa.objects.filter(
         situacao='ativa',
@@ -76,9 +104,10 @@ def home(request):
         'has_rifas': rifas_ativas.exists(),
         'servicos': servicos,
         'info_contato': info_contato,
+        'contato_form': contato_form,  # Adicionar o form
     }
     
-    return render(request, 'registration/home.html', context)
+    return render(request, 'home.html', context)
 
 
 def rifa_detail(request, rifa_id):
