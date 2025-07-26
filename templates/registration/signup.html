@@ -2,252 +2,596 @@
 {% block title %}Cadastro{% endblock %}
 {% block extra_css %}
 <style>
-/* Estilizacao dos campos de input gerados pelo Django */
-input[type="text"], input[type="password"], input[type="email"] {
+/* Reset e configuracoes base */
+* {
+    box-sizing: border-box;
+}
+
+/* Container principal com espacamento para o header */
+.signup-container {
+    min-height: 100vh;
+    padding-top: 120px; /* Espaco para o header nao cobrir */
+    padding-bottom: 40px;
+    background: linear-gradient(135deg, #06b6d4 0%, #0d9488 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card principal do formulario */
+.signup-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 900px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efeito decorativo no card */
+.signup-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #06b6d4, #0d9488, #06b6d4);
+    background-size: 200% 100%;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Titulo do formulario */
+.signup-title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #1f2937;
+    font-size: 2.25rem;
+    font-weight: 700;
+    position: relative;
+}
+
+.signup-title::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #06b6d4, #0d9488);
+    border-radius: 2px;
+}
+
+/* Secooes do formulario */
+.form-section {
+    margin-bottom: 2.5rem;
+}
+
+/* Titulos das secoes */
+.section-title {
+    color: #374151 !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    border-bottom: 3px solid transparent !important;
+    border-image: linear-gradient(90deg, #06b6d4, #0d9488) 1 !important;
+    padding-bottom: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+    position: relative;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #06b6d4, #0d9488);
+    border-radius: 2px;
+}
+
+/* Grid de campos */
+.form-row {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row.two-cols {
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-row.three-cols {
+    grid-template-columns: 2fr 1fr;
+}
+
+.form-row.address-row {
+    grid-template-columns: 2fr 1fr;
+}
+
+/* Grupos de formulario */
+.form-group {
+    position: relative;
+}
+
+/* Labels dos campos */
+.form-label {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    font-size: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Container dos inputs */
+.input-container {
+    position: relative;
+}
+
+/* Estilizacao dos inputs */
+input[type="text"], 
+input[type="password"], 
+input[type="email"],
+select {
     width: 100% !important;
-    padding: 0.875rem 1rem !important;
+    padding: 1rem 1.25rem !important;
     border: 2px solid #e5e7eb !important;
-    border-radius: 0.5rem !important;
+    border-radius: 12px !important;
     font-size: 1rem !important;
-    transition: all 0.3s ease !important;
-    background-color: #f9fafb !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    background-color: #f8fafc !important;
+    color: #1f2937 !important;
+    font-weight: 500 !important;
     box-sizing: border-box !important;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+input[type="text"]:focus, 
+input[type="password"]:focus, 
+input[type="email"]:focus,
+select:focus {
     outline: none !important;
-    border-color: #3b82f6 !important;
+    border-color: #06b6d4 !important;
     background-color: #ffffff !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-    transform: translateY(-1px) !important;
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1) !important;
+    transform: translateY(-2px) !important;
 }
 
-input[type="text"]:hover, input[type="password"]:hover, input[type="email"]:hover {
+input[type="text"]:hover:not(:focus), 
+input[type="password"]:hover:not(:focus), 
+input[type="email"]:hover:not(:focus),
+select:hover:not(:focus) {
     border-color: #d1d5db !important;
     background-color: #ffffff !important;
 }
 
-/* Estilizacao dos labels */
-label {
-    display: block !important;
-    margin-bottom: 0.5rem !important;
-    font-weight: 500 !important;
-    color: #374151 !important;
-    font-size: 0.875rem !important;
-}
-
-/* Estilizacao dos titulos das secoes */
-.section-title {
-    color: #6b7280 !important;
-    font-size: 1.125rem !important;
-    font-weight: 600 !important;
-    border-bottom: 2px solid #e5e7eb !important;
-    padding-bottom: 0.5rem !important;
-    margin-bottom: 1rem !important;
-}
-
-/* Estilizacao dos erros */
+/* Mensagens de erro */
 .error-message {
-    margin-top: 0.25rem !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.25rem !important;
+    margin-top: 0.5rem !important;
+    padding: 0.5rem 0.75rem !important;
+    background-color: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+    border-radius: 8px !important;
     color: #dc2626 !important;
     font-size: 0.875rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
 }
 
 .error-icon {
     background: #dc2626 !important;
     color: white !important;
     border-radius: 50% !important;
-    width: 14px !important;
-    height: 14px !important;
+    width: 16px !important;
+    height: 16px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 0.7rem !important;
+    font-size: 0.75rem !important;
     font-weight: bold !important;
+    flex-shrink: 0 !important;
+}
+
+/* Botao de cadastro */
+.signup-button {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, #06b6d4 0%, #0d9488 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.signup-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(6, 182, 212, 0.4);
+    background: linear-gradient(135deg, #0891b2 0%, #0f766e 100%);
+}
+
+.signup-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+}
+
+/* Divisor */
+.divider {
+    margin: 2rem 0;
+    text-align: center;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+}
+
+.divider-text {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0 1rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Link de login */
+.login-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-link a {
+    color: #06b6d4;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.login-link a:hover {
+    color: #0891b2;
+    text-decoration: none;
+}
+
+.login-link a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #06b6d4, #0d9488);
+    transition: width 0.3s ease;
+}
+
+.login-link a:hover::after {
+    width: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .signup-container {
+        padding-top: 100px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .signup-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .signup-title {
+        font-size: 1.875rem;
+    }
+    
+    .form-row.two-cols,
+    .form-row.three-cols,
+    .form-row.address-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .signup-title {
+        font-size: 1.5rem;
+    }
 }
 </style>
 {% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-8">
-    <div class="card">
-      <div class="card-body">
-        <h3 class="text-center mb-4">Cadastro Completo</h3>
+<div class="signup-container">
+    <div class="signup-card">
+        <h3 class="signup-title">Cadastro Completo</h3>
+        
         <form method="post">
-          {% csrf_token %}
-          
-          <!-- Dados de Login -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <h5 class="text-muted border-bottom pb-2">Dados de Acesso</h5>
+            {% csrf_token %}
+            
+            <!-- Dados de Acesso -->
+            <div class="form-section">
+                <h5 class="section-title">Dados de Acesso</h5>
+                
+                <div class="form-row two-cols">
+                    {% for field in form %}
+                        {% if field.name == 'username' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Nome de Usuario</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% elif field.name == 'email' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Email</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div class="form-row two-cols">
+                    {% for field in form %}
+                        {% if field.name == 'password1' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Senha</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% elif field.name == 'password2' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Confirmar Senha</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             
-            {% for field in form %}
-              {% if field.name == 'username' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Nome de Usuario:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
+            <!-- Dados Pessoais -->
+            <div class="form-section">
+                <h5 class="section-title">Dados Pessoais</h5>
+                
+                <div class="form-row two-cols">
+                    {% for field in form %}
+                        {% if field.name == 'first_name' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Nome</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% elif field.name == 'last_name' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Sobrenome</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-              {% elif field.name == 'email' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Email:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
+                
+                <div class="form-row two-cols">
+                    {% for field in form %}
+                        {% if field.name == 'cpf' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">CPF</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% elif field.name == 'phone' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Telefone</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-              {% elif field.name == 'password1' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Senha:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% elif field.name == 'password2' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Confirmar Senha:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-          
-          <!-- Dados Pessoais -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <h5 class="text-muted border-bottom pb-2">Dados Pessoais</h5>
             </div>
             
-            {% for field in form %}
-              {% if field.name == 'first_name' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Nome:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
+            <!-- Dados Profissionais -->
+            <div class="form-section">
+                <h5 class="section-title">Dados Profissionais</h5>
+                
+                <div class="form-row two-cols">
+                    {% for field in form %}
+                        {% if field.name == 'occupation' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Profissao</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% elif field.name == 'company' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Empresa</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-              {% elif field.name == 'last_name' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Sobrenome:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% elif field.name == 'cpf' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">CPF:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% elif field.name == 'phone' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Telefone:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-          
-          <!-- Dados Profissionais -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <h5 class="text-muted border-bottom pb-2">Dados Profissionais</h5>
             </div>
             
-            {% for field in form %}
-              {% if field.name == 'occupation' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Profissao:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
+            <!-- Endereco -->
+            <div class="form-section">
+                <h5 class="section-title">Endereco</h5>
+                
+                <div class="form-row address-row">
+                    {% for field in form %}
+                        {% if field.name == 'address' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Endereco</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% elif field.name == 'zip_code' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">CEP</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-              {% elif field.name == 'company' %}
-                <div class="col-md-6 mb-3">
-                  <label for="{{ field.id_for_label }}">Empresa:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
+                
+                <div class="form-row address-row">
+                    {% for field in form %}
+                        {% if field.name == 'city' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Cidade</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% elif field.name == 'state' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">Estado</label>
+                                <div class="input-container">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="error-message">
+                                        <span class="error-icon">!</span>
+                                        <span>{{ field.errors|striptags }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-          
-          <!-- Endereco -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <h5 class="text-muted border-bottom pb-2">Endereco</h5>
             </div>
             
-            {% for field in form %}
-              {% if field.name == 'address' %}
-                <div class="col-md-8 mb-3">
-                  <label for="{{ field.id_for_label }}">Endereco:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% elif field.name == 'zip_code' %}
-                <div class="col-md-4 mb-3">
-                  <label for="{{ field.id_for_label }}">CEP:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% elif field.name == 'city' %}
-                <div class="col-md-8 mb-3">
-                  <label for="{{ field.id_for_label }}">Cidade:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% elif field.name == 'state' %}
-                <div class="col-md-4 mb-3">
-                  <label for="{{ field.id_for_label }}">Estado:</label>
-                  {{ field }}
-                  {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors|striptags }}</div>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-          
-          <div class="row">
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary w-100" style="padding: 0.875rem 1rem; background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; transition: all 0.3s ease; margin-top: 0.5rem;" onmouseover="this.style.background='linear-gradient(135deg, #2563eb 0%, #1e40af 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)'" onmouseout="this.style.background='linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">Cadastrar</button>
-            </div>
-          </div>
+            <button type="submit" class="signup-button">
+                Cadastrar
+            </button>
         </form>
         
-        <hr>
-        <p class="text-center">
-          <a href="{% url 'login' %}">Ja tem conta? Faca login</a>
-        </p>
-      </div>
+        <div class="divider">
+            <span class="divider-text">ou</span>
+        </div>
+        
+        <div class="login-link">
+            <a href="{% url 'login' %}">Ja tem conta? Faca login</a>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
