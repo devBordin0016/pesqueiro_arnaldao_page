@@ -344,7 +344,7 @@ select:hover:not(:focus) {
                     {% for field in form %}
                         {% if field.name == 'username' %}
                             <div class="form-group">
-                                <label for="{{ field.id_for_label }}" class="form-label">Nome de Usuario</label>
+                                <label for="{{ field.id_for_label }}" class="form-label">Nome de Usu&aacute;rio</label>
                                 <div class="input-container">
                                     {{ field }}
                                 </div>
@@ -357,7 +357,7 @@ select:hover:not(:focus) {
                             </div>
                         {% elif field.name == 'email' %}
                             <div class="form-group">
-                                <label for="{{ field.id_for_label }}" class="form-label">Email</label>
+                                <label for="{{ field.id_for_label }}" class="form-label">E-mail</label>
                                 <div class="input-container">
                                     {{ field }}
                                 </div>
@@ -482,7 +482,7 @@ select:hover:not(:focus) {
                     {% for field in form %}
                         {% if field.name == 'occupation' %}
                             <div class="form-group">
-                                <label for="{{ field.id_for_label }}" class="form-label">Profissao</label>
+                                <label for="{{ field.id_for_label }}" class="form-label">Profiss&atilde;o</label>
                                 <div class="input-container">
                                     {{ field }}
                                 </div>
@@ -513,13 +513,13 @@ select:hover:not(:focus) {
             
             <!-- Endereco -->
             <div class="form-section">
-                <h5 class="section-title">Endereco</h5>
+                <h5 class="section-title">Endere&ccedil;o</h5>
                 
                 <div class="form-row address-row">
                     {% for field in form %}
                         {% if field.name == 'address' %}
                             <div class="form-group">
-                                <label for="{{ field.id_for_label }}" class="form-label">Endereco</label>
+                                <label for="{{ field.id_for_label }}" class="form-label">Endere&ccedil;o</label>
                                 <div class="input-container">
                                     {{ field }}
                                 </div>
@@ -590,7 +590,7 @@ select:hover:not(:focus) {
         </div>
         
         <div class="login-link">
-            <a href="{% url 'login' %}">Ja tem conta? Faca login</a>
+            <a href="{% url 'login' %}">Ja tem conta? Fa&ccedil;a login</a>
         </div>
     </div>
 </div>

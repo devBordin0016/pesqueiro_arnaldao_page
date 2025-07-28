@@ -1,3 +1,5 @@
+from multiprocessing import context
+from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib import messages
@@ -7,6 +9,7 @@ from .forms import CustomUserCreationForm, ContatoForm
 from .models import Rifa, NumeroRifa
 from django.core.mail import send_mail
 from django.conf import settings
+
 
 def signup_view(request):
     if request.method == 'POST':
