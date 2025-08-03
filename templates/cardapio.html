@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cardapio.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section do Cardapio -->
+<section class="hero-cardapio">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold text-white mb-4">Nosso Card&aacute;pio</h1>
+                <p class="lead text-white-50 mb-5">
+                    Descubra os sabores &uacute;nicos do Pesqueiro Arnald&atilde;o. 
+                    Pratos tradicionais preparados com ingredientes frescos e muito carinho.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Navegacao do Cardapio (Scrollspy) -->
+<section class="menu-nav bg-light py-3 sticky-top" style="top: 76px;">
+    <div class="container">
+        <nav class="nav nav-pills justify-content-center flex-wrap">
+            <a class="nav-link active" href="#feijoada">Feijoada</a>
+            <a class="nav-link" href="#bacalhau">Bacalhau</a>
+            <a class="nav-link" href="#carnes">Carnes</a>
+            <a class="nav-link" href="#peixes">Peixes</a>
+            <a class="nav-link" href="#aves">Aves</a>
+            <a class="nav-link" href="#guarnicoes">Guarni&ccedil;&otilde;es</a>
+            <a class="nav-link" href="#massas">Massas</a>
+        </nav>
+    </div>
+</section>
+
+<!-- Conteudo do Cardapio -->
+<main class="cardapio-content py-5">
+    <div class="container">
+        
+        <!-- Feijoada -->
+        <section id="feijoada" class="categoria-section mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="categoria-titulo mb-4">
+                        <i class="bi bi-bowl-hot me-2"></i>
+                        Feijoada
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in cardapio.Feijoada %}
+                <div class="col-lg-6 mb-3">
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h5 class="item-nome">{{ item.tamanho }}</h5>
+                        </div>
+                        <div class="item-preco">
+                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Bacalhau -->
+        <section id="bacalhau" class="categoria-section mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="categoria-titulo mb-4">
+                        <i class="bi bi-fish me-2"></i>
+                        Bacalhau
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in cardapio.Bacalhau %}
+                <div class="col-lg-6 mb-3">
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h5 class="item-nome">{{ item.tamanho }}</h5>
+                        </div>
+                        <div class="item-preco">
+                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Carnes -->
+        <section id="carnes" class="categoria-section mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="categoria-titulo mb-4">
+                        <i class="bi bi-egg-fried me-2"></i>
+                        Carnes
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in cardapio.Carnes %}
+                <div class="col-lg-6 mb-3">
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h5 class="item-nome">{{ item.tamanho }}</h5>
+                        </div>
+                        <div class="item-preco">
+                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            {% if item.preco3 %}
+                            <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Peixes -->
+        <section id="peixes" class="categoria-section mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="categoria-titulo mb-4">
+                        <i class="bi bi-fish me-2"></i>
+                        Peixes
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in cardapio.Peixes %}
+                <div class="col-lg-6 mb-3">
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h5 class="item-nome">{{ item.tamanho }}</h5>
+                        </div>
+                        <div class="item-preco">
+                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            {% if item.preco3 %}
+                            <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Aves -->
+        <section id="aves" class="categoria-section mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="categoria-titulo mb-4">
+                        <i class="bi bi-egg me-2"></i>
+                        Aves
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in cardapio.Aves %}
+                <div class="col-lg-6 mb-3">
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h5 class="item-nome">{{ item.tamanho }}</h5>
+                        </div>
+                        <div class="item-preco">
+                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            {% if item.preco3 %}
+                            <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Guarnicoes -->
+        <section id="guarnicoes" class="categoria-section mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="categoria-titulo mb-4">
+                        <i class="bi bi-cup-hot me-2"></i>
+                        Guarni&ccedil;&otilde;es
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in cardapio.Guarnicoes %}
+                <div class="col-lg-6 mb-3">
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h5 class="item-nome">{{ item.tamanho }}</h5>
+                        </div>
+                        <div class="item-preco">
+                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Massas -->
+        <section id="massas" class="categoria-section mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="categoria-titulo mb-4">
+                        <i class="bi bi-egg-fried me-2"></i>
+                        Massas
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for item in cardapio.Massas %}
+                <div class="col-lg-6 mb-3">
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h5 class="item-nome">{{ item.tamanho }}</h5>
+                        </div>
+                        <div class="item-preco">
+                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- Botao Fixo "Pedir Agora" -->
+<div class="btn-pedir-fixo">
+    <a href="#contato" class="btn btn-warning btn-lg fw-bold">
+        <i class="bi bi-whatsapp me-2"></i>
+        Pedir Agora
+    </a>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-light py-4">
+    <div class="container text-center">
+        <p>&copy; 2025 Pesqueiro Arnald&otilde;o. Todos os direitos reservados.</p>
+        <div class="social-links mt-3">
+            <a href="#" class="text-light me-3"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-light me-3"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-light"><i class="bi bi-whatsapp"></i></a>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/cardapio.js' %}"></script>
+{% endblock %}

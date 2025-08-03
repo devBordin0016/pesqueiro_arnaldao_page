@@ -21,6 +21,7 @@ from . import views
 app_name = 'core_accounts'
 
 urlpatterns = [
-    path('signup/', views.signup_view, name='signup'),
     path('', views.home, name='home'),
+    path('signup/', views.signup_view, name='signup'),
+    path('cardapio/', views.cardapio_view, name='cardapio'),
 ]

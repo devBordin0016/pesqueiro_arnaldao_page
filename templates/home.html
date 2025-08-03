@@ -1392,7 +1392,7 @@
                             <i class="bi bi-calendar-check me-2"></i>
                             Reserve sua Mesa
                         </a>
-                        <a href="#servicos" class="btn btn-outline-light btn-lg px-4 py-3 fw-bold">
+                        <a href="{% url 'core_accounts:cardapio' %}" class="btn btn-outline-light btn-lg px-4 py-3 fw-bold">
                             <i class="bi bi-book me-2"></i>
                             Conhe&ccedil;a o Card&aacute;pio
                         </a>
@@ -2206,7 +2206,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <p class="footer-copyright mb-0">
-                        {{ current_year|default:"2025" }} Pesqueiro do Arnald&atilde;o. Todos os direitos reservados.
+                        &copy;{{ current_year|default:"2025" }} Pesqueiro do Arnald&atilde;o. Todos os direitos reservados.
                     </p>
                 </div>
                 <div class="col-md-6 text-md-end">

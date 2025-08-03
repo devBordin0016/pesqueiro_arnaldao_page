@@ -9,6 +9,8 @@ from .forms import CustomUserCreationForm, ContatoForm
 from .models import Rifa, NumeroRifa
 from django.core.mail import send_mail
 from django.conf import settings
+from django.http import JsonResponse
+import json
 
 
 def signup_view(request):
@@ -165,3 +167,118 @@ def contato(request):
         form = ContatoForm()
     
     return render(request, 'contato.html', {'form': form})
+
+def cardapio_view(request):
+    # Dados do cardapio - pode ser movido para models futuramente
+    cardapio_data = {
+        "Feijoada": [
+            {"tamanho": "Individual (executivo)  1 pessoa", "preco": 50.00},
+            {"tamanho": "Mini  2 pessoas", "preco": 95.00},
+            {"tamanho": "Pequena  3 pessoas", "preco": 130.00},
+            {"tamanho": "Media  4 pessoas", "preco": 165.00},
+            {"tamanho": "Grande  5 pessoas", "preco": 195.00}
+        ],
+        "Bacalhau": [
+            {"tamanho": "Individual  1 pessoa", "preco": 90.00},
+            {"tamanho": "Pequeno  2 pessoas", "preco": 175.00},
+            {"tamanho": "Medio  3 pessoas", "preco": 260.00},
+            {"tamanho": "Grande  4 pessoas", "preco": 340.00}
+        ],
+        "Carnes": [
+            {"tamanho": "Contra File Acebolado", "preco": 115.00, "preco3": 160.00},
+            {"tamanho": "Contra File a Parmegiana", "preco": 140.00, "preco3": 200.00},
+            {"tamanho": "Contra File na Chapa", "preco": 120.00, "preco3": 160.00},
+            {"tamanho": "Contra File com Legumes", "preco": 120.00, "preco3": 160.00},
+            {"tamanho": "Picanha c/ Batata, Brocolis e Alho", "preco": 145.00, "preco3": 200.00},
+            {"tamanho": "Costela c/ Mandioca", "preco": 95.00, "preco3": 135.00},
+            {"tamanho": "Virado a Paulista", "preco": 120.00, "preco3": 165.00}
+        ],
+        "Peixes": [
+            {"tamanho": "File de Pescada", "preco": 95.00, "preco3": 140.00},
+            {"tamanho": "File de Tilapia", "preco": 110.00, "preco3": 145.00},
+            {"tamanho": "File de Tilapia a Parmegiana", "preco": 120.00, "preco3": 170.00},
+            {"tamanho": "Tilapia Fresca (peixe)", "preco": 110.00, "preco3": 165.00},
+            {"tamanho": "Cacao ao Molho c/ Leite de Coco", "preco": 100.00, "preco3": 155.00}
+        ],
+        "Aves": [
+            {"tamanho": "File de Frango Grelhado", "preco": 95.00, "preco3": 140.00},
+            {"tamanho": "File de Frango a Milanesa", "preco": 100.00, "preco3": 145.00},
+            {"tamanho": "File de Frango a Parmegiana", "preco": 120.00, "preco3": 165.00}
+        ],
+        "Guarnicoes": [
+            {"tamanho": "Arroz Porcao", "preco": 25.00},
+            {"tamanho": "Feijao Porcao", "preco": 25.00},
+            {"tamanho": "Couve Porcao", "preco": 25.00},
+            {"tamanho": "Bisteca Unidade", "preco": 12.00}
+        ],
+        "Massas": [
+            {"tamanho": "Spaghetti (Molho Bolonhesa)  1 pessoa", "preco": 45.00},
+            {"tamanho": "Lasanha (Molho Bolonhesa)  1 pessoa", "preco": 50.00}
+        ]
+    }
+    
+    # Context para o template
+    context = {
+        'cardapio': cardapio_data,
+        'page_title': 'Cardapio - Pesqueiro Arnaldao',
+        'page_description': 'Confira nosso delicioso cardapio com pratos tradicionais e sabores unicos do Pesqueiro Arnaldao.'
+    }
+    
+    return render(request, 'cardapio.html', context)
+
+def cardapio_api_view(request):
+    
+    # Mesmos dados da view principal
+    cardapio_data = {
+        "Feijoada": [
+            {"tamanho": "Individual (executivo)  1 pessoa", "preco": 50.00},
+            {"tamanho": "Mini  2 pessoas", "preco": 95.00},
+            {"tamanho": "Pequena  3 pessoas", "preco": 130.00},
+            {"tamanho": "Media  4 pessoas", "preco": 165.00},
+            {"tamanho": "Grande  5 pessoas", "preco": 195.00}
+        ],
+        "Bacalhau": [
+            {"tamanho": "Individual  1 pessoa", "preco": 90.00},
+            {"tamanho": "Pequeno  2 pessoas", "preco": 175.00},
+            {"tamanho": "Medio  3 pessoas", "preco": 260.00},
+            {"tamanho": "Grande  4 pessoas", "preco": 340.00}
+        ],
+        "Carnes": [
+            {"tamanho": "Contra File Acebolado (2?pessoas)", "preco": 115.00, "preco3": 160.00},
+            {"tamanho": "Contra File a Parmegiana", "preco": 140.00, "preco3": 200.00},
+            {"tamanho": "Contra File na Chapa", "preco": 120.00, "preco3": 160.00},
+            {"tamanho": "Contra File com Legumes", "preco": 120.00, "preco3": 160.00},
+            {"tamanho": "Picanha c/ Batata, Brocolis e Alho", "preco": 145.00, "preco3": 200.00},
+            {"tamanho": "Costela c/ Mandioca", "preco": 95.00, "preco3": 135.00},
+            {"tamanho": "Virado a Paulista", "preco": 120.00, "preco3": 165.00}
+        ],
+        "Peixes": [
+            {"tamanho": "File de Pescada", "preco": 95.00, "preco3": 140.00},
+            {"tamanho": "File de Tilapia", "preco": 110.00, "preco3": 145.00},
+            {"tamanho": "File de Tilapia a Parmegiana", "preco": 120.00, "preco3": 170.00},
+            {"tamanho": "Tilapia Fresca (peixe)", "preco": 110.00, "preco3": 165.00},
+            {"tamanho": "Cacao ao Molho c/ Leite de Coco", "preco": 100.00, "preco3": 155.00}
+        ],
+        "Aves": [
+            {"tamanho": "File de Frango Grelhado", "preco": 95.00, "preco3": 140.00},
+            {"tamanho": "File de Frango a Milanesa", "preco": 100.00, "preco3": 145.00},
+            {"tamanho": "File de Frango a Parmegiana", "preco": 120.00, "preco3": 165.00}
+        ],
+        "Guarnicoes": [
+            {"tamanho": "Arroz Porcao", "preco": 25.00},
+            {"tamanho": "Feijao Porcao", "preco": 25.00},
+            {"tamanho": "Couve Porcao", "preco": 25.00},
+            {"tamanho": "Bisteca Unidade", "preco": 12.00}
+        ],
+        "Massas": [
+            {"tamanho": "Spaghetti (Molho Bolonhesa) 1 pessoa", "preco": 45.00},
+            {"tamanho": "Lasanha (Molho Bolonhesa) 1 pessoa", "preco": 50.00}
+        ]
+    }
+    
+    return JsonResponse({
+        'status': 'success',
+        'data': cardapio_data,
+        'total_categorias': len(cardapio_data),
+        'timestamp': '2024-01-01T00:00:00Z'  # Pode usar timezone.now()
+    })
