@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/cardapio.css' %}">
+<link rel="stylesheet" href="{% static 'css/cardapio-modal.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -22,17 +23,14 @@
     </div>
 </section>
 
-<!-- Navegacao do Cardapio (Scrollspy) -->
+<!-- Navegacao do Cardapio (3 categorias principais) -->
 <section class="menu-nav bg-light py-3 sticky-top" style="top: 76px;">
     <div class="container">
         <nav class="nav nav-pills justify-content-center flex-wrap">
-            <a class="nav-link active" href="#feijoada">Feijoada</a>
-            <a class="nav-link" href="#bacalhau">Bacalhau</a>
-            <a class="nav-link" href="#carnes">Carnes</a>
-            <a class="nav-link" href="#peixes">Peixes</a>
-            <a class="nav-link" href="#aves">Aves</a>
-            <a class="nav-link" href="#guarnicoes">Guarni&ccedil;&otilde;es</a>
-            <a class="nav-link" href="#massas">Massas</a>
+            <a class="nav-link active" href="#pratos">Pratos</a>
+            <a class="nav-link" href="#bebidas">Bebidas</a>
+            <a class="nav-link" href="#sobremesas">Sobremesas</a>
+            <a class="nav-link" href="#porcoes">Por&ccedil;&otilde;es</a>
         </nav>
     </div>
 </section>
@@ -41,199 +39,493 @@
 <main class="cardapio-content py-5">
     <div class="container">
         
-        <!-- Feijoada -->
-        <section id="feijoada" class="categoria-section mb-5">
+        <!-- SECAO PRATOS -->
+        <section id="pratos" class="categoria-section mb-5">
             <div class="row">
                 <div class="col-12">
                     <h2 class="categoria-titulo mb-4">
                         <i class="bi bi-bowl-hot me-2"></i>
-                        Feijoada
+                        Pratos
                     </h2>
                 </div>
             </div>
-            <div class="row">
-                {% for item in cardapio.Feijoada %}
-                <div class="col-lg-6 mb-3">
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h5 class="item-nome">{{ item.tamanho }}</h5>
-                        </div>
-                        <div class="item-preco">
-                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+
+            <!-- Subcategoria: Feijoada -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-bowl-hot me-2"></i>
+                    Feijoada
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Feijoada %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('feijoada_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('feijoada_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+            </div>
+
+            <!-- Subcategoria: Bacalhau -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-fish me-2"></i>
+                    Bacalhau
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Bacalhau %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('bacalhau_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('bacalhau_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Carnes -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-egg-fried me-2"></i>
+                    Carnes
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Carnes %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('carnes_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('carnes_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                                {% if item.preco3 %}
+                                <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Peixes -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-fish me-2"></i>
+                    Peixes
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Peixes %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('peixes_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('peixes_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                                {% if item.preco3 %}
+                                <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Aves -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-egg me-2"></i>
+                    Aves
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Aves %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('aves_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('aves_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                                {% if item.preco3 %}
+                                <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Guarnicoes -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-cup-hot me-2"></i>
+                    Guarni&ccedil;&otilde;es
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Guarnicoes %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('guarnicoes_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('guarnicoes_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Massas -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-egg-fried me-2"></i>
+                    Massas
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Massas %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('massas_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('massas_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </section>
 
-        <!-- Bacalhau -->
-        <section id="bacalhau" class="categoria-section mb-5">
+        <!-- SECAO BEBIDAS -->
+        <section id="bebidas" class="categoria-section mb-5">
             <div class="row">
                 <div class="col-12">
                     <h2 class="categoria-titulo mb-4">
-                        <i class="bi bi-fish me-2"></i>
-                        Bacalhau
-                    </h2>
+                        <i class="bi bi-cup-straw me-2"></i>
+                        Bebidas
+                    </h2>   
                 </div>
             </div>
-            <div class="row">
-                {% for item in cardapio.Bacalhau %}
-                <div class="col-lg-6 mb-3">
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h5 class="item-nome">{{ item.tamanho }}</h5>
-                        </div>
-                        <div class="item-preco">
-                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+
+            <!-- Subcategoria: Refrigerantes -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-cup-straw me-2"></i>
+                    Refrigerantes
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Refrigerantes %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('refrigerantes_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('refrigerantes_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+            </div>
+
+            <!-- Subcategoria: Aguas -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-droplet me-2"></i>
+                    Aguas
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Aguas %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('aguas_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('aguas_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Isotonicos -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-lightning me-2"></i>
+                    Isotonicos
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Isotonicos %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('isotonicos_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('isotonicos_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Sucos -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-cup me-2"></i>
+                    Sucos
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Sucos %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('sucos_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('sucos_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Subcategoria: Cervejas -->
+            <div class="subcategoria-wrapper mb-5">
+                <h3 class="subcategoria-titulo mb-4">
+                    <i class="bi bi-cup-hot me-2"></i>
+                    Cervejas
+                </h3>
+                <div class="row">
+                    {% for item in cardapio.Cervejas %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('cervejas_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('cervejas_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </section>
 
-        <!-- Carnes -->
-        <section id="carnes" class="categoria-section mb-5">
+        <!-- SECAO SOBREMESAS -->
+        <section id="sobremesas" class="categoria-section mb-5">
             <div class="row">
                 <div class="col-12">
                     <h2 class="categoria-titulo mb-4">
-                        <i class="bi bi-egg-fried me-2"></i>
-                        Carnes
+                        <i class="bi bi-cake me-2"></i>
+                        Sobremesas
                     </h2>
                 </div>
             </div>
             <div class="row">
-                {% for item in cardapio.Carnes %}
-                <div class="col-lg-6 mb-3">
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h5 class="item-nome">{{ item.tamanho }}</h5>
-                        </div>
-                        <div class="item-preco">
-                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
-                            {% if item.preco3 %}
-                            <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
-                            {% endif %}
+                    {% for item in cardapio.Sobremesas %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('sobremesas_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('sobremesas_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
         </section>
 
-        <!-- Peixes -->
-        <section id="peixes" class="categoria-section mb-5">
+        <!-- SECAO Porcoes -->
+        <section id="porcoes" class="categoria-section mb-5">
             <div class="row">
                 <div class="col-12">
                     <h2 class="categoria-titulo mb-4">
-                        <i class="bi bi-fish me-2"></i>
-                        Peixes
+                        <i class="bi bi-cake me-2"></i>
+                        Por&ccedil;&otilde;es
                     </h2>
                 </div>
             </div>
             <div class="row">
-                {% for item in cardapio.Peixes %}
-                <div class="col-lg-6 mb-3">
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h5 class="item-nome">{{ item.tamanho }}</h5>
-                        </div>
-                        <div class="item-preco">
-                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
-                            {% if item.preco3 %}
-                            <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <!-- Aves -->
-        <section id="aves" class="categoria-section mb-5">
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="categoria-titulo mb-4">
-                        <i class="bi bi-egg me-2"></i>
-                        Aves
-                    </h2>
-                </div>
-            </div>
-            <div class="row">
-                {% for item in cardapio.Aves %}
-                <div class="col-lg-6 mb-3">
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h5 class="item-nome">{{ item.tamanho }}</h5>
-                        </div>
-                        <div class="item-preco">
-                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
-                            {% if item.preco3 %}
-                            <small class="preco-alt">3 pessoas: R$ {{ item.preco3|floatformat:2 }}</small>
-                            {% endif %}
+                {% for item in cardapio.Porcoes %}
+                    <div class="col-lg-6 mb-3">
+                        <div class="item-card">
+                            <div class="item-image-container" onclick="openModal('porcoes_{{ forloop.counter }}')">
+                                <img 
+                                    src="{% load static %}{% static 'images/cardapio/' %}{{ item.imagem }}" 
+                                    alt="{{ item.tamanho }}"
+                                    class="item-image"
+                                    loading="lazy"
+                                    onerror="this.onerror=null; this.src='{% static 'images/cardapio/placeholder.svg' %}'; this.classList.add('placeholder-fallback');"
+                                >
+                            </div>
+                            <div class="item-info">
+                                <h5 class="item-nome clickable" onclick="openModal('porcoes_{{ forloop.counter }}')">{{ item.tamanho }}</h5>
+                            </div>
+                            <div class="item-preco">
+                                <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <!-- Guarnicoes -->
-        <section id="guarnicoes" class="categoria-section mb-5">
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="categoria-titulo mb-4">
-                        <i class="bi bi-cup-hot me-2"></i>
-                        Guarni&ccedil;&otilde;es
-                    </h2>
-                </div>
-            </div>
-            <div class="row">
-                {% for item in cardapio.Guarnicoes %}
-                <div class="col-lg-6 mb-3">
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h5 class="item-nome">{{ item.tamanho }}</h5>
-                        </div>
-                        <div class="item-preco">
-                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <!-- Massas -->
-        <section id="massas" class="categoria-section mb-5">
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="categoria-titulo mb-4">
-                        <i class="bi bi-egg-fried me-2"></i>
-                        Massas
-                    </h2>
-                </div>
-            </div>
-            <div class="row">
-                {% for item in cardapio.Massas %}
-                <div class="col-lg-6 mb-3">
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h5 class="item-nome">{{ item.tamanho }}</h5>
-                        </div>
-                        <div class="item-preco">
-                            <span class="preco">R$ {{ item.preco|floatformat:2 }}</span>
-                        </div>
-                    </div>
-                </div>
                 {% endfor %}
             </div>
         </section>
 
     </div>
 </main>
+
+<!-- Modal para imagens -->
+<div id="imageModal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <img id="modalImage" src="" alt="">
+    </div>
+</div>
 
 <!-- Botao Fixo "Pedir Agora" -->
 <div class="btn-pedir-fixo">
@@ -246,7 +538,7 @@
 <!-- Footer -->
 <footer class="bg-dark text-light py-4">
     <div class="container text-center">
-        <p>&copy; 2025 Pesqueiro Arnald&otilde;o. Todos os direitos reservados.</p>
+        <p>&copy; 2025 Pesqueiro Arnald&atilde;o. Todos os direitos reservados.</p>
         <div class="social-links mt-3">
             <a href="#" class="text-light me-3"><i class="bi bi-facebook"></i></a>
             <a href="#" class="text-light me-3"><i class="bi bi-instagram"></i></a>

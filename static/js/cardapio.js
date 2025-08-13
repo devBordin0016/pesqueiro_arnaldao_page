@@ -1,6 +1,7 @@
 /**
  * CARDAPIO.JS - JavaScript para pagina de cardapio
- * Funcionalidades: Scrollspy, rolagem suave, animacoes
+ * Funcionalidades: Modal de imagens, navegacao suave, animacoes e filtros
+ * VERSAO CORRIGIDA - Modal funcionando perfeitamente
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -10,10 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===============================================
     
     const CONFIG = {
-        scrollOffset: 140, // Offset para compensar navbar fixa
-        scrollDuration: 800, // Duracao da animacao de scroll
-        throttleDelay: 16, // Delay para throttle (60fps)
-        activeClass: 'active'
+        scrollOffset: 100,
+        scrollDuration: 600,
+        modalFadeTime: 300,
+        activeClass: 'active',
+        imagePath: '/static/images/cardapio/'
     };
     
     // ===============================================
@@ -23,107 +25,164 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuNavLinks = document.querySelectorAll('.menu-nav .nav-link');
     const sections = document.querySelectorAll('.categoria-section');
     const btnPedirFixo = document.querySelector('.btn-pedir-fixo');
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalContent = document.querySelector('.modal-content');
+    const modalClose = document.querySelector('.modal-close');
+    const itemCards = document.querySelectorAll('.item-card');
     
     // ===============================================
-    // UTILITARIOS
+    // FUNCIONALIDADE DE MODAL DE IMAGENS - CORRIGIDA
     // ===============================================
     
     /**
-     * Throttle function para otimizar performance
+     * Abre o modal com a imagem do item selecionado
+     * @param {string} itemId - ID do item para buscar a imagem correspondente
      */
-    function throttle(func, delay) {
-        let timeoutId;
-        let lastExecTime = 0;
-        return function(...args) {
-            const currentTime = Date.now();
-            
-            if (currentTime - lastExecTime > delay) {
-                func.apply(this, args);
-                lastExecTime = currentTime;
-            } else {
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(() => {
-                    func.apply(this, args);
-                    lastExecTime = Date.now();
-                }, delay - (currentTime - lastExecTime));
-            }
-        };
-    }
-    
-    /**
-     * Smooth scroll para elemento
-     */
-    function smoothScrollTo(targetPosition, duration = CONFIG.scrollDuration) {
-        const startPosition = window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        let startTime = null;
+    window.openModal = function(itemId) {
+        if (!modal || !modalImage) {
+            console.error('Elementos do modal nao encontrados');
+            return;
+        }
+
+        // Encontrar a imagem original clicada para pegar o src correto
+        const clickedImage = findOriginalImage(itemId);
+        let imageSrc = '';
+
+        if (clickedImage && clickedImage.src && !clickedImage.src.includes('placeholder')) {
+            // Usar a mesma imagem que esta sendo exibida na miniatura
+            imageSrc = clickedImage.src;
+        } else {
+            // Fallback: tentar construir o caminho baseado no itemId
+            imageSrc = `${CONFIG.imagePath}${itemId}.jpg`;
+        }
+
+        // Configurar a imagem do modal
+        modalImage.src = imageSrc;
+        modalImage.alt = `Imagem ampliada - ${itemId}`;
         
-        function animation(currentTime) {
-            if (startTime === null) startTime = currentTime;
-            const timeElapsed = currentTime - startTime;
-            const progress = Math.min(timeElapsed / duration, 1);
-            
-            // Easing function (easeInOutCubic)
-            const ease = progress < 0.5 
-                ? 4 * progress * progress * progress 
-                : (progress - 1) * (2 * progress - 2) * (2 * progress - 2) + 1;
-            
-            window.scrollTo(0, startPosition + distance * ease);
-            
-            if (timeElapsed < duration) {
-                requestAnimationFrame(animation);
+        // Mostrar o modal com as classes corretas
+        modal.style.display = 'flex';
+        
+        // Pequeno delay para permitir que o display seja aplicado antes da animacao
+        setTimeout(() => {
+            modal.classList.add('active');
+        }, 10);
+        
+        // Adicionar listener para tecla ESC
+        document.addEventListener('keydown', handleModalKeydown);
+        
+        // Impedir scroll da pagina
+        document.body.style.overflow = 'hidden';
+        
+        // Tratamento de erro para imagem nao encontrada
+        modalImage.onerror = function() {
+            // Tentar outras extensões
+            tryAlternativeFormats(this, itemId);
+        };
+    };
+
+    /**
+     * Encontra a imagem original que foi clicada
+     */
+    function findOriginalImage(itemId) {
+        // Procurar por elementos com onclick que contem o itemId
+        const clickableElements = document.querySelectorAll('[onclick*="' + itemId + '"]');
+        
+        for (let element of clickableElements) {
+            // Se for um container de imagem, procurar a img dentro dele
+            const img = element.querySelector('img');
+            if (img) {
+                return img;
+            }
+            // Se o proprio elemento for uma imagem
+            if (element.tagName === 'IMG') {
+                return element;
             }
         }
         
-        requestAnimationFrame(animation);
+        return null;
     }
-    
+
     /**
-     * Obter posicao do elemento com offset
+     * Tenta formatos alternativos de imagem
      */
-    function getElementPosition(element) {
-        const rect = element.getBoundingClientRect();
-        return rect.top + window.pageYOffset - CONFIG.scrollOffset;
-    }
-    
-    // ===============================================
-    // SCROLLSPY FUNCTIONALITY
-    // ===============================================
-    
-    /**
-     * Atualiza link ativo baseado na posicao do scroll
-     */
-    function updateActiveLink() {
-        const scrollPosition = window.pageYOffset + CONFIG.scrollOffset + 50;
-        let activeSection = null;
+    function tryAlternativeFormats(imgElement, itemId) {
+        const formats = ['png', 'webp', 'svg'];
+        let currentFormat = 0;
         
-        // Encontra a secao ativa
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionBottom = sectionTop + section.offsetHeight;
+        function tryNextFormat() {
+            if (currentFormat >= formats.length) {
+                // Usar placeholder final
+                imgElement.src = `${CONFIG.imagePath}placeholder.svg`;
+                imgElement.alt = 'Imagem nao disponivel';
+                return;
+            }
             
-            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                activeSection = section;
+            const newSrc = `${CONFIG.imagePath}${itemId}.${formats[currentFormat]}`;
+            imgElement.onerror = function() {
+                currentFormat++;
+                tryNextFormat();
+            };
+            imgElement.src = newSrc;
+        }
+        
+        tryNextFormat();
+    }
+    
+    /**
+     * Fecha o modal de imagem
+     */
+    window.closeModal = function() {
+        if (!modal) return;
+        
+        // Adicionar classe de fechamento para animacao
+        modal.classList.add('closing');
+        modal.classList.remove('active');
+        
+        // Remover listeners
+        document.removeEventListener('keydown', handleModalKeydown);
+        
+        // Restaurar scroll da pagina apos a animacao
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+            document.body.style.overflow = 'auto';
+        }, CONFIG.modalFadeTime);
+    };
+    
+    /**
+     * Handler para teclas no modal
+     */
+    function handleModalKeydown(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    }
+    
+    // Event listeners para o modal
+    if (modal) {
+        // Fechar ao clicar no overlay
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
             }
         });
-        
-        // Se nenhuma secao especifica, usa a primeira se estivermos no topo
-        if (!activeSection && window.pageYOffset < 200) {
-            activeSection = sections[0];
-        }
-        
-        // Atualiza classes dos links
-        menuNavLinks.forEach(link => {
-            link.classList.remove(CONFIG.activeClass);
-            
-            if (activeSection) {
-                const href = link.getAttribute('href');
-                const sectionId = '#' + activeSection.id;
-                
-                if (href === sectionId) {
-                    link.classList.add(CONFIG.activeClass);
-                }
-            }
+    }
+    
+    if (modalContent) {
+        // Impedir que cliques no conteudo fechem o modal
+        modalContent.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    if (modalClose) {
+        // Fechar ao clicar no botao X
+        modalClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeModal();
         });
     }
     
@@ -131,9 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // NAVEGACAO SUAVE
     // ===============================================
     
-    /**
-     * Adiciona event listeners para navegacao suave
-     */
     function initSmoothScrolling() {
         menuNavLinks.forEach(link => {
             link.addEventListener('click', function(e) {
@@ -143,62 +199,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                    const targetPosition = getElementPosition(targetElement);
-                    smoothScrollTo(targetPosition);
+                    smoothScrollTo(targetElement);
                     
-                    // Atualiza URL sem trigger do scroll
+                    // Atualiza URL sem recarregar a pagina
                     history.pushState(null, null, targetId);
                     
-                    // Remove foco do link apos clique (mobile)
-                    this.blur();
+                    // Atualiza links ativos
+                    menuNavLinks.forEach(navLink => {
+                        navLink.classList.remove(CONFIG.activeClass);
+                    });
+                    this.classList.add(CONFIG.activeClass);
                 }
             });
         });
     }
     
-    // ===============================================
-    // ANIMACOES DO BOTAO FIXO
-    // ===============================================
-    
-    /**
-     * Controla visibilidade do botao fixo
-     */
-    function handleFixedButton() {
-        const scrollPosition = window.pageYOffset;
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
+    function smoothScrollTo(element) {
+        const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - CONFIG.scrollOffset;
         
-        // Mostra botao apos rolar um pouco
-        if (scrollPosition > 300) {
-            btnPedirFixo.style.opacity = '1';
-            btnPedirFixo.style.transform = 'translateY(0)';
-        } else {
-            btnPedirFixo.style.opacity = '0';
-            btnPedirFixo.style.transform = 'translateY(20px)';
-        }
-        
-        // Ajusta posicao no final da pagina para nao sobrepor footer
-        const distanceFromBottom = documentHeight - (scrollPosition + windowHeight);
-        if (distanceFromBottom < 100) {
-            btnPedirFixo.style.transform = `translateY(-${100 - distanceFromBottom}px)`;
-        }
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
     }
     
     // ===============================================
     // ANIMACOES DE ENTRADA
     // ===============================================
     
-    /**
-     * Adiciona animacoes aos cards quando entram na viewport
-     */
-    function initScrollAnimations() {
-        const itemCards = document.querySelectorAll('.item-card');
-        
+    function initEntryAnimations() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
         }, {
@@ -206,191 +240,287 @@ document.addEventListener('DOMContentLoaded', function() {
             rootMargin: '0px 0px -50px 0px'
         });
         
-        itemCards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        itemCards.forEach((card, index) => {
+            card.classList.add('animate-entry');
+            card.style.transitionDelay = `${index * 0.05}s`;
             observer.observe(card);
         });
     }
     
     // ===============================================
-    // NAVEGACAO HORIZONTAL TOUCH (MOBILE)
+    // FILTRO DE BUSCA
     // ===============================================
     
-    /**
-     * Melhora navegacao horizontal em dispositivos touch
-     */
-    function initTouchNavigation() {
-        const menuNav = document.querySelector('.menu-nav .nav');
-        if (!menuNav) return;
+    function initSearchFilter() {
+        const searchContainer = document.createElement('div');
+        searchContainer.className = 'search-container mb-4';
+        searchContainer.innerHTML = `
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchCardapio" placeholder="Buscar no cardapio...">
+                <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+        `;
         
-        let isScrolling = false;
-        let startX = 0;
-        let scrollLeft = 0;
-        
-        menuNav.addEventListener('touchstart', (e) => {
-            isScrolling = true;
-            startX = e.touches[0].pageX - menuNav.offsetLeft;
-            scrollLeft = menuNav.scrollLeft;
-        });
-        
-        menuNav.addEventListener('touchmove', (e) => {
-            if (!isScrolling) return;
-            e.preventDefault();
-            const x = e.touches[0].pageX - menuNav.offsetLeft;
-            const walk = (x - startX) * 2;
-            menuNav.scrollLeft = scrollLeft - walk;
-        });
-        
-        menuNav.addEventListener('touchend', () => {
-            isScrolling = false;
-        });
-    }
-    
-    // ===============================================
-    // OTIMIZACOES DE PERFORMANCE
-    // ===============================================
-    
-    /**
-     * Throttled scroll handler
-     */
-    const handleScroll = throttle(() => {
-        updateActiveLink();
-        handleFixedButton();
-    }, CONFIG.throttleDelay);
-    
-    /**
-     * Debounced resize handler
-     */
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
-    const handleResize = debounce(() => {
-        updateActiveLink();
-    }, 250);
-    
-    // ===============================================
-    // INICIALIZACAO
-    // ===============================================
-    
-    /**
-     * Inicializa todas as funcionalidades
-     */
-    function init() {
-        // Configuracoes iniciais do botao fixo
-        if (btnPedirFixo) {
-            btnPedirFixo.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            btnPedirFixo.style.opacity = '0';
-            btnPedirFixo.style.transform = 'translateY(20px)';
+        const firstSection = document.querySelector('.categoria-section');
+        if (firstSection && firstSection.parentNode) {
+            firstSection.parentNode.insertBefore(searchContainer, firstSection);
         }
         
-        // Inicializa funcionalidades
-        initSmoothScrolling();
-        initScrollAnimations();
-        initTouchNavigation();
+        const searchInput = document.getElementById('searchCardapio');
+        const clearButton = document.getElementById('clearSearch');
         
-        // Event listeners
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('resize', handleResize);
+        if (searchInput) {
+            searchInput.addEventListener('input', filterItems);
+        }
+        if (clearButton) {
+            clearButton.addEventListener('click', clearSearch);
+        }
         
-        // Scroll inicial se ha hash na URL
-        if (window.location.hash) {
-            setTimeout(() => {
-                const targetElement = document.querySelector(window.location.hash);
-                if (targetElement) {
-                    const targetPosition = getElementPosition(targetElement);
-                    smoothScrollTo(targetPosition, 1000);
+        function filterItems() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let hasResults = false;
+            
+            document.querySelectorAll('.categoria-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            itemCards.forEach(card => {
+                const itemName = card.querySelector('.item-nome');
+                if (itemName) {
+                    const matchesSearch = itemName.textContent.toLowerCase().includes(searchTerm);
+                    card.style.display = matchesSearch || searchTerm === '' ? 'block' : 'none';
+                    
+                    if (matchesSearch && searchTerm !== '') {
+                        let section = card.closest('.categoria-section');
+                        if (section) {
+                            section.style.display = 'block';
+                            hasResults = true;
+                        }
+                    }
                 }
-            }, 100);
-        }
-        
-        // Primeira verificacao
-        updateActiveLink();
-        handleFixedButton();
-        
-        console.log('Cardapio JS inicializado com sucesso!');
-    }
-    
-    // ===============================================
-    // HANDLERS DE EVENTOS ESPECIAIS
-    // ===============================================
-    
-    /**
-     * Handler para mudancas de orientacao (mobile)
-     */
-    window.addEventListener('orientationchange', function() {
-        setTimeout(() => {
-            updateActiveLink();
-            handleFixedButton();
-        }, 100);
-    });
-    
-    /**
-     * Handler para voltar/avancar do navegador
-     */
-    window.addEventListener('popstate', function() {
-        if (window.location.hash) {
-            const targetElement = document.querySelector(window.location.hash);
-            if (targetElement) {
-                const targetPosition = getElementPosition(targetElement);
-                smoothScrollTo(targetPosition);
+            });
+            
+            if (searchTerm === '') {
+                document.querySelectorAll('.categoria-section').forEach(section => {
+                    section.style.display = 'block';
+                });
+                hasResults = true;
+            }
+            
+            // Gerenciar mensagem de "nenhum resultado"
+            let noResultsMsg = document.getElementById('noResultsMessage');
+            if (!hasResults) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.id = 'noResultsMessage';
+                    noResultsMsg.className = 'alert alert-info text-center my-4';
+                    searchContainer.after(noResultsMsg);
+                }
+                noResultsMsg.innerHTML = `
+                    <i class="bi bi-emoji-frown me-2"></i>
+                    Nenhum item encontrado para "${searchTerm}"
+                `;
+                noResultsMsg.style.display = 'block';
+            } else if (noResultsMsg) {
+                noResultsMsg.style.display = 'none';
             }
         }
-    });
-    
-    /**
-     * Handler para teclas de atalho
-     */
-    document.addEventListener('keydown', function(e) {
-        // Esc para voltar ao topo
-        if (e.key === 'Escape') {
-            smoothScrollTo(0);
-        }
         
-        // Setas para navegar entre secoes
-        if (e.key === 'ArrowDown' && e.ctrlKey) {
-            e.preventDefault();
-            const activeLink = document.querySelector('.menu-nav .nav-link.active');
-            const nextLink = activeLink ? activeLink.parentElement.nextElementSibling?.querySelector('.nav-link') : menuNavLinks[0];
-            if (nextLink) nextLink.click();
+        function clearSearch() {
+            searchInput.value = '';
+            filterItems();
+            searchInput.focus();
         }
-        
-        if (e.key === 'ArrowUp' && e.ctrlKey) {
-            e.preventDefault();
-            const activeLink = document.querySelector('.menu-nav .nav-link.active');
-            const prevLink = activeLink ? activeLink.parentElement.previousElementSibling?.querySelector('.nav-link') : null;
-            if (prevLink) prevLink.click();
-        }
-    });
+    }
     
-    // Inicializa quando DOM estiver pronto
-    init();
-});
-
-// ===============================================
-// UTILITIES GLOBAIS (se necessario)
-// ===============================================
-
-/**
- * Funcao global para scroll suave (pode ser chamada externamente)
- */
-window.scrollToSection = function(sectionId) {
-    const targetElement = document.querySelector(sectionId);
-    if (targetElement) {
-        const targetPosition = targetElement.offsetTop - 140;
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
+    // ===============================================
+    // BOTAO FLUTUANTE DE PEDIDO
+    // ===============================================
+    
+    function initFloatingButton() {
+        if (!btnPedirFixo) return;
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                btnPedirFixo.classList.add('visible');
+            } else {
+                btnPedirFixo.classList.remove('visible');
+            }
+            
+            const footer = document.querySelector('footer');
+            if (footer) {
+                const footerRect = footer.getBoundingClientRect();
+                if (footerRect.top < window.innerHeight) {
+                    const overlap = window.innerHeight - footerRect.top;
+                    btnPedirFixo.style.bottom = `${Math.min(overlap + 20, 100)}px`;
+                } else {
+                    btnPedirFixo.style.bottom = '20px';
+                }
+            }
         });
     }
-};
+    
+    // ===============================================
+    // INICIALIZACAO DE MINIATURAS - CORRIGIDA
+    // ===============================================
+    
+    function initThumbnails() {
+        // Procurar por todos os containers de imagem que têm onclick
+        const imageContainers = document.querySelectorAll('.item-image-container[onclick]');
+        
+        imageContainers.forEach(container => {
+            const onclickAttr = container.getAttribute('onclick');
+            if (!onclickAttr) return;
+            
+            // Extrair o itemId do atributo onclick
+            const match = onclickAttr.match(/openModal\(['"]([^'"]*)['"]\)/);
+            if (!match || !match[1]) return;
+            
+            const itemId = match[1];
+            
+            // Verificar se ja existe uma imagem no container
+            const existingImg = container.querySelector('img.item-image');
+            if (existingImg && existingImg.src && !existingImg.src.includes('placeholder')) {
+                // Ja tem uma imagem valida, nao fazer nada
+                return;
+            }
+            
+            // Tentar carregar miniatura para containers que sao placeholders
+            if (container.classList.contains('item-image-placeholder')) {
+                loadThumbnail(container, itemId);
+            }
+        });
+    }
+    
+    function loadThumbnail(placeholder, itemId) {
+        const extensions = ['jpg', 'png', 'webp'];
+        let currentExtension = 0;
+        
+        function tryLoadImage() {
+            if (currentExtension >= extensions.length) {
+                // Manter o placeholder original se todas falharem
+                return;
+            }
+            
+            const ext = extensions[currentExtension];
+            const thumbnailPath = `${CONFIG.imagePath}${itemId}.${ext}`;
+            
+            const img = document.createElement('img');
+            img.className = 'item-thumbnail';
+            img.alt = `Miniatura de ${itemId}`;
+            img.src = thumbnailPath;
+            
+            img.onload = function() {
+                // Limpar conteudo do placeholder e adicionar imagem
+                placeholder.innerHTML = '';
+                placeholder.appendChild(img);
+                placeholder.classList.add('has-image');
+            };
+            
+            img.onerror = function() {
+                currentExtension++;
+                tryLoadImage();
+            };
+        }
+        
+        tryLoadImage();
+    }
+    
+    // ===============================================
+    // MELHORAR CLIQUES NAS IMAGENS
+    // ===============================================
+    
+    function initImageClicks() {
+        // Adicionar event listeners para todos os elementos clicaveis do cardapio
+        const clickableElements = document.querySelectorAll('[onclick*="openModal"]');
+        
+        clickableElements.forEach(element => {
+            // Adicionar cursor pointer se nao tiver
+            if (window.getComputedStyle(element).cursor === 'auto') {
+                element.style.cursor = 'pointer';
+            }
+            
+            // Melhorar feedback visual no hover
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    }
+    
+    // ===============================================
+    // NAVEGACAO POR CATEGORIAS - MELHORADA
+    // ===============================================
+    
+    function initCategoryNavigation() {
+        // Atualizar link ativo baseado na secao visivel
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '-140px 0px -50% 0px'
+        };
+        
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    updateActiveNavLink(sectionId);
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+    }
+    
+    function updateActiveNavLink(activeSectionId) {
+        menuNavLinks.forEach(link => {
+            link.classList.remove(CONFIG.activeClass);
+            if (link.getAttribute('href') === `#${activeSectionId}`) {
+                link.classList.add(CONFIG.activeClass);
+            }
+        });
+    }
+    
+    // ===============================================
+    // INICIALIZACAO PRINCIPAL
+    // ===============================================
+    
+    // Inicializar todas as funcionalidades
+    initSmoothScrolling();
+    initEntryAnimations();
+    initSearchFilter();
+    initFloatingButton();
+    initThumbnails();
+    initImageClicks();
+    initCategoryNavigation();
+    
+    // Verificar hash na URL para scroll inicial
+    if (window.location.hash) {
+        setTimeout(() => {
+            const targetElement = document.querySelector(window.location.hash);
+            if (targetElement) {
+                smoothScrollTo(targetElement);
+            }
+        }, 500);
+    }
+    
+    // ===============================================
+    // DEBUG E LOGS
+    // ===============================================
+    
+    console.log('??? Cardapio JS inicializado com sucesso!');
+    console.log('?? Modal de imagens configurado');
+    console.log('?? Sistema de busca ativo');
+    console.log('?? Responsividade aplicada');
+    
+    // Log para debug do modal
+    if (!modal) console.warn('?? Elemento #imageModal nao encontrado');
+    if (!modalImage) console.warn('?? Elemento #modalImage nao encontrado');
+    if (!modalContent) console.warn('?? Elemento .modal-content nao encontrado');
+});
